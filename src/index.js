@@ -66,14 +66,15 @@ class Game extends React.Component {
     } else if(Math.abs(cc - c) === 1 && rr === r) {
       gridState[r][cc < c ? cc : c].right = true;
     } else {
+      this.setState({
+        lastClicked: [r, c],
+      });
       return;
     }
     this.setState({
       gridState: gridState,
       lastClicked: null,
     });
-    return;
-
   }
 
   render() {

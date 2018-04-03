@@ -1,0 +1,58 @@
+.container {
+  width: 115px;
+  margin: 20px auto;
+}
+
+.node {
+  width: 50px;
+  height: 50px;
+  position: relative;
+  float: left;
+  background-color: red;
+}
+
+.node.right-side {
+  width: 5px;
+}
+.node.down-side {
+  height: 5px;
+}
+
+.core {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  margin: auto;
+}
+
+.edge {
+  background-color: black;
+  position: absolute;
+}
+
+
+.right {
+  width: 50px;
+  height: 5px;
+  top: 0px;
+}
+
+.down {
+  width: 5px;
+  height: 50px;
+}
+
+.off {
+  display: none;
+}
+
+.owner {
+  z-index: 3;
+  font-size: 2em;
+  line-height: 50px;
+  text-align: center;
+}

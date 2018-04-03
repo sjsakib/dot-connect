@@ -5,7 +5,7 @@ import './index.css';
 function Node(props) {
   return (
     <div className="node">
-      <div className="core"></div>
+      <div className="core" onClick={() => props.nodeClicked(props.r, props.c)}></div>
       <div className={`edge down ${!props.down ? 'off' : ''}`}></div>
       <div className={`edge right ${!props.right ? 'off' : ''}`}></div>
       <div className="owner">{props.owner}</div>
@@ -14,17 +14,18 @@ function Node(props) {
 }
 
 function Grid(props) {
-  console.log(props);
   const grid = props.gridState.map((rowState, i) => (
     rowState.map((nodeState, j) => (
       <Node
         key={`${i} ${j}`}
-        pos={{r: i, c: j}}
+        r={i}
+        c={j}
         down={nodeState.down}
         right={nodeState.right}
+        nodeClicked={props.nodeClicked}
       />
     ))
-  ))
+  ));
 
   return (
     <div className="container" style={{width: props.size*50}}>
@@ -48,11 +49,16 @@ class Game extends React.Component {
     }
   }
 
+  nodeClicked(i, j) {
+    console.log(`clicked ${i}, ${j}`)
+  }
+
   render() {
     return (
       <Grid
         size={this.state.size}
         gridState={this.state.gridState}
+        nodeClicked={this.nodeClicked}
       />
     )
   }

@@ -41,6 +41,7 @@ class Game extends React.Component {
     const size = props.size;
     this.state = {
       size: size,
+      lastClicked: null,
       gridState: Array(size).fill(null).map(() => Array(size).fill(null).map(() => ({
         right: false,
         down: false,
@@ -49,8 +50,30 @@ class Game extends React.Component {
     }
   }
 
-  nodeClicked(i, j) {
-    console.log(`clicked ${i}, ${j}`)
+  nodeClicked(r, c) {
+    console.log(`clicked ${r}, ${c}`)
+    const lastClicked = this.state.lastClicked;
+    if(! lastClicked ) {
+      this.setState({
+        lastClicked: [r, c] 
+      });
+      return;
+    }
+    let gridState = this.state.gridState.slice();
+    const [rr, cc] = lastClicked;
+    if(Math.abs(rr - r) === 1 && cc === c) {
+      gridState[rr < r ? rr : r][c].down = true;
+    } else if(Math.abs(cc - c) === 1 && rr === r) {
+      gridState[r][cc < c ? cc : c].right = true;
+    } else {
+      return;
+    }
+    this.setState({
+      gridState: gridState,
+      lastClicked: null,
+    });
+    return;
+
   }
 
   render() {
@@ -58,7 +81,7 @@ class Game extends React.Component {
       <Grid
         size={this.state.size}
         gridState={this.state.gridState}
-        nodeClicked={this.nodeClicked}
+        nodeClicked={this.nodeClicked.bind(this)}
       />
     )
   }

@@ -4,36 +4,28 @@ import './index.css';
 
 function Node(props) {
   return (
-    <div className={`node ${props.sideClass}`}>
+    <div className="node">
       <div className="core"></div>
-      <div className={`edge right ${!props.right ? 'off': ''}`}></div>
-      <div className={`edge down ${!props.down ? 'off': ''}`}></div>
+      <div className={`edge down ${!props.down ? 'off' : ''}`}></div>
+      <div className={`edge right ${!props.right ? 'off' : ''}`}></div>
       <div className="owner">{props.owner}</div>
     </div>
   );
 }
 
 function Grid(props) {
-  let grid = [];
-  const size = props.size;
-  for (let i = 0; i<size; i++) {
-    for (let j = 0; j<size; j++) {
-      let side = '';
-      if (j === size-1) {
-        side += 'right-side';
-      }
-      if (i === size-1) {
-        side += ' down-side';
-      }
-      grid.push(
-        <Node
-          key={i*size + j}
-          sideClass={side}
-          down={side ? false : true}
-          right={side ? false : true}
-        />);
-    }
-  }
+  console.log(props);
+  const grid = props.gridState.map((rowState, i) => (
+    rowState.map((nodeState, j) => (
+      <Node
+        key={`${i} ${j}`}
+        pos={{r: i, c: j}}
+        down={nodeState.down}
+        right={nodeState.right}
+      />
+    ))
+  ))
+
   return (
     <div className="container" style={{width: props.size*50}}>
       {grid}
@@ -42,9 +34,34 @@ function Grid(props) {
 }
 
 
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    const size = props.size;
+    this.state = {
+      size: size,
+      gridState: Array(size).fill(null).map(() => Array(size).fill(null).map(() => ({
+        right: false,
+        down: false,
+        owner: null,
+      }))),
+    }
+  }
+
+  render() {
+    return (
+      <Grid
+        size={this.state.size}
+        gridState={this.state.gridState}
+      />
+    )
+  }
+}
+
+
 ReactDom.render(
-    <Grid 
-      size={5}
+    <Game 
+      size={7}
     />,
     document.getElementById('root')
 );

@@ -31,6 +31,7 @@ function Grid(props) {
   return (
     <div className="container" style={{width: props.size*50}}>
       {grid}
+      <p> To move: {props.xIsNext ? 'X' : 'O'}</p>
     </div>
   )
 }
@@ -65,12 +66,12 @@ class Game extends React.Component {
     if(Math.abs(rr - r) === 1 && cc === c) {
       r = (rr < r ? rr : r);
       gridState[r][c].down = true;
-      if(c != 0) this.updateOwner(r, c-1);
+      if(c !== 0) this.updateOwner(r, c-1);
 
     } else if(Math.abs(cc - c) === 1 && rr === r) {
       c = (cc < c ? cc : c);
       gridState[r][c].right = true;
-      if(r != 0) this.updateOwner(r-1, c);
+      if(r !== 0) this.updateOwner(r-1, c);
 
     } else {
       this.setState({
@@ -82,6 +83,7 @@ class Game extends React.Component {
     this.setState({
       gridState: gridState,
       lastClicked: null,
+      xIsNext: !this.state.xIsNext,
     });
 
   }
@@ -106,6 +108,7 @@ class Game extends React.Component {
       <Grid
         size={this.props.size}
         gridState={this.state.gridState}
+        xIsNext={this.state.xIsNext}
         nodeClicked={this.nodeClicked.bind(this)}
       />
     )

@@ -1,5 +1,10 @@
-.container {
-  width: 115px;
+.game-container {
+  margin: auto;
+  text-align: center;
+}
+
+.grid-container {
+  width: 100%;
   margin: 20px auto;
 }
 

@@ -32,9 +32,8 @@ function Grid(props) {
   ));
 
   return (
-    <div className="container" style={{width: props.size*50}}>
+    <div className="grid-container">
       {grid}
-      <p> To move: {props.xIsNext ? 'X' : 'O'}</p>
     </div>
   )
 }
@@ -108,13 +107,15 @@ class Game extends React.Component {
 
   render() {
     return (
-      <Grid
-        size={this.props.size}
-        gridState={this.state.gridState}
-        xIsNext={this.state.xIsNext}
-        lastClicked={this.state.lastClicked}
-        nodeClicked={this.nodeClicked.bind(this)}
-      />
+      <div className="game-container" style={{width: this.props.size*50}}>
+        <Grid
+          size={this.props.size}
+          gridState={this.state.gridState}
+          lastClicked={this.state.lastClicked}
+          nodeClicked={this.nodeClicked.bind(this)}
+        />
+        <p>To move: {this.state.xIsNext ? 'X' : 'O'} </p>
+      </div>
     )
   }
 }

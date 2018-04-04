@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 
-class Node extends React.Component {
+class Node extends Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			selectedClass: ''
+		};
 
 		this.handleClick = this.handleClick.bind(this);
 	}
 
 	handleClick() {
-		this.props.nodeClicked(this.props.r, this.props.c);
+		this.setState({ selectedClass: '-selected' });
+		this.props.nodeClicked({
+			row: this.props.r,
+			col: this.props.c
+		});
 	}
 
 	render() {
@@ -16,9 +24,12 @@ class Node extends React.Component {
 
 		return (
 			<div className="node">
-				<div className="core" onClick={this.handleClick} />
-				<div className={`edge down ${!props.down ? 'off' : ''}`} />
-				<div className={`edge right ${!props.right ? 'off' : ''}`} />
+				<div
+					className={`core${this.state.selectedClass}`}
+					onClick={this.handleClick}
+				/>
+				<div className={`edge ${props.right ? 'right' : ''}`} />
+				<div className={`edge ${props.down ? 'down' : ''}`} />
 				<div className="owner">{props.owner}</div>
 			</div>
 		);

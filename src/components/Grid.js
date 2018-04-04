@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import Node from './Node';
 
-class Grid extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
+class Grid extends Component {
 	render() {
 		const props = this.props;
-		const grid = props.gridState.map((rowState, i) =>
+		const grid = props.gridNodes.map((rowState, i) =>
 			rowState.map((nodeState, j) => (
 				<Node
 					key={`${i} ${j}`}

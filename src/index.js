@@ -32,7 +32,7 @@ function Grid(props) {
   ));
 
   return (
-    <div className="grid-container">
+    <div className="grid-container" style={{width: props.size*50}}>
       {grid}
     </div>
   )
@@ -110,7 +110,7 @@ class Game extends React.Component {
 
   render() {
     return (
-      <div className="game-container" style={{width: this.props.size*50}}>
+      <div className="game-container" style={{width: (this.props.size-1)*50}}>
         <Grid
           size={this.props.size}
           gridState={this.state.gridState}

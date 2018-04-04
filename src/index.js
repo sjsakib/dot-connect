@@ -63,18 +63,20 @@ class Game extends React.Component {
       });
       return;
     }
+
     let gridState = this.state.gridState.slice();
     let owned = false; // this move gave ownership?
     const [rr, cc] = lastClicked;
-    if(Math.abs(rr - r) === 1 && cc === c) {
-      r = (rr < r ? rr : r);
-      gridState[r][c].down = true;
-      if(c !== 0) owned = this.updateOwner(r, c-1) || owned;
+    const mr = Math.min(rr, r);
+    const mc = Math.min(cc, c);
 
-    } else if(Math.abs(cc - c) === 1 && rr === r) {
-      c = (cc < c ? cc : c);
-      gridState[r][c].right = true;
-      if(r !== 0) owned = this.updateOwner(r-1, c) || owned;
+    if(Math.abs(rr - r) === 1 && cc === c && !gridState[mr][mc].down) {
+      gridState[mr][mc].down = true;
+      if(mc !== 0) owned = this.updateOwner(mr, mc-1) || owned;
+
+    } else if(Math.abs(cc - c) === 1 && rr === r && !gridState[mr][mc].right) {
+      gridState[mr][mc].right = true;
+      if(mr !== 0) owned = this.updateOwner(mr-1, mc) || owned;
 
     } else {
       this.setState({
@@ -82,7 +84,7 @@ class Game extends React.Component {
       });
       return;
     }
-    owned = this.updateOwner(r, c) || owned;
+    owned = this.updateOwner(mr, mc) || owned;
     this.setState({
       gridState: gridState,
       lastClicked: undefined,

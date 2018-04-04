@@ -26,6 +26,10 @@
   left: -10px;
   top: -10px;
   margin: auto;
+  z-index: 5;
+}
+.core.highlight {
+  background-color: red;
 }
 
 .edge {

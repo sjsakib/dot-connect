@@ -5,7 +5,9 @@ import './index.css';
 function Node(props) {
   return (
     <div className="node">
-      <div className="core" onClick={() => props.nodeClicked(props.r, props.c)}></div>
+      <div className={`core ${props.highlight ? 'highlight' : ''}`}
+        onClick={() => props.nodeClicked(props.r, props.c)}>
+      </div>
       <div className={`edge down ${!props.down ? 'off' : ''}`}></div>
       <div className={`edge right ${!props.right ? 'off' : ''}`}></div>
       <div className="owner">{props.owner}</div>
@@ -23,6 +25,7 @@ function Grid(props) {
         down={nodeState.down}
         right={nodeState.right}
         owner={nodeState.owner}
+        highlight={props.lastClicked && (props.lastClicked[0] === i && props.lastClicked[1] === j)}
         nodeClicked={props.nodeClicked}
       />
     ))
@@ -42,12 +45,12 @@ class Game extends React.Component {
     super(props);
     const size = this.props.size;
     this.state = {
-      lastClicked: null,
+      lastClicked: undefined,
       xIsNext: true, // Let's call the first player X
       gridState: Array(size).fill(null).map(() => Array(size).fill(null).map(() => ({
         right: false,
         down: false,
-        owner: null,
+        owner: undefined,
       }))),
     }
   }
@@ -82,7 +85,7 @@ class Game extends React.Component {
     this.updateOwner(r, c);
     this.setState({
       gridState: gridState,
-      lastClicked: null,
+      lastClicked: undefined,
       xIsNext: !this.state.xIsNext,
     });
 
@@ -109,6 +112,7 @@ class Game extends React.Component {
         size={this.props.size}
         gridState={this.state.gridState}
         xIsNext={this.state.xIsNext}
+        lastClicked={this.state.lastClicked}
         nodeClicked={this.nodeClicked.bind(this)}
       />
     )

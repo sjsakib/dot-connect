@@ -69,12 +69,12 @@ class Game extends React.Component {
     if(Math.abs(rr - r) === 1 && cc === c) {
       r = (rr < r ? rr : r);
       gridState[r][c].down = true;
-      if(c !== 0) owned = owned || this.updateOwner(r, c-1);
+      if(c !== 0) owned = this.updateOwner(r, c-1) || owned;
 
     } else if(Math.abs(cc - c) === 1 && rr === r) {
       c = (cc < c ? cc : c);
       gridState[r][c].right = true;
-      if(r !== 0) owned = owned || this.updateOwner(r-1, c);
+      if(r !== 0) owned = this.updateOwner(r-1, c) || owned;
 
     } else {
       this.setState({
@@ -82,7 +82,7 @@ class Game extends React.Component {
       });
       return;
     }
-    owned = owned || this.updateOwner(r, c);
+    owned = this.updateOwner(r, c) || owned;
     this.setState({
       gridState: gridState,
       lastClicked: undefined,

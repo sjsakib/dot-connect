@@ -4,7 +4,7 @@ import Game from './Game';
 
 class App extends Component {
 	render() {
-		return <Game size={3} />;
+		return <Game size={8} />;
 	}
 }
 

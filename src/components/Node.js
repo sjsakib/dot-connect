@@ -7,7 +7,6 @@ class Node extends Component {
 	}
 
 	handleClick() {
-		this.setState({ selectedClass: '-selected' });
 		this.props.nodeClicked({
 			row: this.props.r,
 			col: this.props.c
@@ -15,7 +14,7 @@ class Node extends Component {
 	}
 
 	getSelectedClass() {
-		return this.props.selected ? '-selected' : '';
+		return this.props.selected ? 'selected' : '';
 	}
 
 	render() {
@@ -24,7 +23,7 @@ class Node extends Component {
 		return (
 			<div className="node">
 				<div
-					className={`core${this.getSelectedClass()}`}
+					className={`core ${this.getSelectedClass()}`}
 					onClick={this.handleClick}
 				/>
 				<div className={`edge ${props.right ? 'right' : ''}`} />

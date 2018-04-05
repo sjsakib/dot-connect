@@ -67,22 +67,26 @@ class Game extends Component {
 			if (action.line) {
 				this.setState(prevState => {
 					let gridState = prevState.gridNodes.slice();
+					let gotNode = false;
+					let gotNode2;  // This is ugly, couldn't think anything else
 					const row = action.node.row;
 					const col = action.node.col;
 
 					if (action.line === 'vertical') {
 						gridState[row][col].down = true;
-						gridState = this.updateOwner(gridState, row, col - 1);
+						[gridState, gotNode2] = this.updateOwner(gridState, row, col - 1);
 					} else if (action.line === 'horizontal') {
 						gridState[row][col].right = true;
-						gridState = this.updateOwner(gridState, row - 1, col);
+						[gridState, gotNode2] = this.updateOwner(gridState, row - 1, col);
 					}
+					gotNode = gotNode || gotNode2;
 
-					gridState = this.updateOwner(gridState, row, col);
+					[gridState, gotNode2] = this.updateOwner(gridState, row, col);
+					gotNode = gotNode || gotNode2;
 
 					return {
 						lastClicked: action.line ? null : prevState.lastClicked,
-						xIsNext: !prevState.xIsNext,
+						xIsNext: gotNode ? prevState.xIsNext : !prevState.xIsNext,
 						gridNodes: gridState
 					};
 				});
@@ -90,7 +94,8 @@ class Game extends Component {
 		}
 	}
 
-	isValidMove(gridState, size, row, col) {
+	isValidMove(gridState, row, col) {
+		const size = this.props.size;
 		return (
 			row >= 0 &&
 			col >= 0 &&
@@ -101,20 +106,19 @@ class Game extends Component {
 	}
 
 	updateOwner(gridState, row, col) {
-		let size = this.props.size;
-		let gridNodes = this.state.gridNodes;
-
+		let gotNode = false;
 		if (
-			this.isValidMove(gridState, size, row, col) &&
+			this.isValidMove(gridState, row, col) &&
 			gridState[row][col].right &&
 			gridState[row][col].down &&
 			gridState[row + 1][col].right &&
 			gridState[row][col + 1].down
 		) {
 			gridState[row][col].owner = this.state.xIsNext ? 'X' : 'O';
+			gotNode = true;
 		}
 
-		return gridState;
+		return [gridState, gotNode];
 	}
 
 	render() {

@@ -41,7 +41,8 @@
 
 .edge {
 	background-color: black;
-	/* position: absolute; */
+	position: absolute;
+	z-index: -1;
 }
 
 .right {

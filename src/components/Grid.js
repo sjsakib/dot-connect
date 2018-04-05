@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import Node from './Node';
 
 class Grid extends Component {
+	isSelected(i, j) {
+		const lastClicked = this.props.lastClicked;
+		return lastClicked && lastClicked.row === i && lastClicked.col === j;
+	}
+
 	render() {
 		const props = this.props;
 		const grid = props.gridNodes.map((rowState, i) =>
@@ -13,6 +18,7 @@ class Grid extends Component {
 					down={nodeState.down}
 					right={nodeState.right}
 					owner={nodeState.owner}
+					selected={this.isSelected(i, j)}
 					nodeClicked={props.nodeClicked}
 				/>
 			))

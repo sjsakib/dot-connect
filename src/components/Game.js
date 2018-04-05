@@ -9,20 +9,6 @@ class Game extends Component {
 		this.state = {
 			lastClicked: null,
 			xIsNext: true, // Let's call the first player X
-			gridBoxes: Array(size)
-				.fill()
-				.map(() =>
-					Array(size)
-						.fill()
-						.map(() => ({
-							top: false,
-							left: false,
-							right: false,
-							down: false,
-							count: 0,
-							owner: null
-						}))
-				),
 			gridNodes: Array(size)
 				.fill()
 				.map(() =>
@@ -30,7 +16,8 @@ class Game extends Component {
 						.fill()
 						.map(() => ({
 							right: false,
-							down: false
+							down: false,
+							owner: null
 						}))
 				)
 		};
@@ -67,71 +54,67 @@ class Game extends Component {
 		console.log(`clicked ${clickedNode.row}, ${clickedNode.col}`);
 
 		const lastClicked = this.state.lastClicked;
-		if (!lastClicked) {
+		if (
+			!lastClicked ||
+			(clickedNode.row == lastClicked.row &&
+				clickedNode.col == lastClicked.col)
+		) {
 			this.setState({
 				lastClicked: clickedNode
 			});
 		} else {
 			const action = this.setAction(this.state.lastClicked, clickedNode);
-			this.setState(prevState => {
-				const gridState = prevState.gridNodes.slice();
+			if (action.line) {
+				this.setState(prevState => {
+					let gridState = prevState.gridNodes.slice();
+					const row = action.node.row;
+					const col = action.node.col;
 
-				if (action.line === 'vertical') {
-					gridState[action.node.row][action.node.col].down = true;
-				} else if (action.line === 'horizontal') {
-					gridState[action.node.row][action.node.col].right = true;
-				}
+					if (action.line === 'vertical') {
+						gridState[row][col].down = true;
+						gridState = this.updateOwner(gridState, row, col - 1);
+					} else if (action.line === 'horizontal') {
+						gridState[row][col].right = true;
+						gridState = this.updateOwner(gridState, row - 1, col);
+					}
 
-				return {
-					lastClicked: action.line ? null : prevState.lastClicked,
-					xIsNext: !prevState.xIsNext,
-					gridNodes: gridState
-				};
-			});
+					gridState = this.updateOwner(gridState, row, col);
+
+					return {
+						lastClicked: action.line ? null : prevState.lastClicked,
+						xIsNext: !prevState.xIsNext,
+						gridNodes: gridState
+					};
+				});
+			}
 		}
-
-		// let gridNodes = this.state.gridNodes.slice();
-		// const [rr, cc] = lastClicked;
-		// if (Math.abs(rr - r) === 1 && cc === c) {
-		// 	r = rr < r ? rr : r;
-		// 	gridNodes[r][c].down = true;
-		// 	if (c !== 0) this.updateOwner(r, c - 1);
-		// } else if (Math.abs(cc - c) === 1 && rr === r) {
-		// 	c = cc < c ? cc : c;
-		// 	gridNodes[r][c].right = true;
-		// 	if (r !== 0) this.updateOwner(r - 1, c);
-		// } else {
-		// 	this.setState({
-		// 		lastClicked: [r, c]
-		// 	});
-		// 	return;
-		// }
-		// this.updateOwner(r, c);
-		// this.setState({
-		// 	gridNodes: gridNodes,
-		// 	lastClicked: null,
-		// 	xIsNext: !this.state.xIsNext
-		// });
 	}
 
-	updateOwner(r, c) {
-		console.log(r, c);
-		let gridNodes = this.state.gridNodes;
+	isValidMove(gridState, size, row, col) {
+		return (
+			row >= 0 &&
+			col >= 0 &&
+			row < size - 1 &&
+			col < size - 1 &&
+			!gridState[row][col].owner
+		);
+	}
+
+	updateOwner(gridState, row, col) {
 		let size = this.props.size;
-		if (r === size - 1 || c === size - 1 || gridNodes[r][c].owner) {
-			return;
-		}
+		let gridNodes = this.state.gridNodes;
+
 		if (
-			gridNodes[r][c].right &&
-			gridNodes[r][c].down &&
-			gridNodes[r + 1][c].right &&
-			gridNodes[r][c + 1].down
+			this.isValidMove(gridState, size, row, col) &&
+			gridState[row][col].right &&
+			gridState[row][col].down &&
+			gridState[row + 1][col].right &&
+			gridState[row][col + 1].down
 		) {
-			gridNodes[r][c].owner = this.state.xIsNext ? 'X' : 'O';
-			this.setState({
-				gridNodes: gridNodes
-			});
+			gridState[row][col].owner = this.state.xIsNext ? 'X' : 'O';
 		}
+
+		return gridState;
 	}
 
 	render() {
@@ -141,6 +124,7 @@ class Game extends Component {
 				gridNodes={this.state.gridNodes}
 				xIsNext={this.state.xIsNext}
 				nodeClicked={this.nodeClicked}
+				lastClicked={this.state.lastClicked}
 			/>
 		);
 	}

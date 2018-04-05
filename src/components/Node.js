@@ -3,11 +3,6 @@ import React, { Component } from 'react';
 class Node extends Component {
 	constructor(props) {
 		super(props);
-
-		this.state = {
-			selectedClass: ''
-		};
-
 		this.handleClick = this.handleClick.bind(this);
 	}
 
@@ -19,13 +14,17 @@ class Node extends Component {
 		});
 	}
 
+	getSelectedClass() {
+		return this.props.selected ? '-selected' : '';
+	}
+
 	render() {
 		const props = this.props;
 
 		return (
 			<div className="node">
 				<div
-					className={`core${this.state.selectedClass}`}
+					className={`core${this.getSelectedClass()}`}
 					onClick={this.handleClick}
 				/>
 				<div className={`edge ${props.right ? 'right' : ''}`} />

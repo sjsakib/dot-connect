@@ -8,8 +8,8 @@ class Node extends Component {
 
 	handleClick() {
 		this.props.nodeClicked({
-			row: this.props.r,
-			col: this.props.c
+			r: this.props.r,
+			c: this.props.c
 		});
 	}
 

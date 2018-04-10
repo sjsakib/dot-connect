@@ -4,7 +4,7 @@ import Node from './Node';
 class Grid extends Component {
 	isSelected(i, j) {
 		const lastClicked = this.props.lastClicked;
-		return lastClicked && lastClicked.row === i && lastClicked.col === j;
+		return lastClicked && lastClicked.r === i && lastClicked.c === j;
 	}
 
 	render() {

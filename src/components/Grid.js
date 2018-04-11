@@ -29,7 +29,11 @@ class Grid extends Component {
 				<div className="grid-container" style={{ width: props.size * 50 }}>
 					{grid}
 				</div>
-				<p className='game-info'> To move: {props.xIsNext ? 'X' : 'O'}</p>
+				<p className='game-info'>
+					To move: {props.xIsNext ? 'X' : 'O'} <br/>
+					<br/>
+					X - {this.props.score.x} : {this.props.score.o} - O
+				</p>
 			</div>
 		);
 	}

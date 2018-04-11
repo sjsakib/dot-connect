@@ -3,6 +3,10 @@ const initialState = {
   size: size,
   lastClicked: null,
   xIsNext: true, // Let's call the first player X
+  score: {
+    x: 0,
+    o: 0,
+  },
   gridNodes: Array(size)
     .fill()
     .map(() =>
@@ -74,29 +78,34 @@ function nodeClicked(state, clickedNode) {
   }
 
   let gridState = state.gridNodes.slice();
-  let gotNode = false;
-  let gotNode2; // This is ugly, couldn't think anything else
+  let gotNodes = 0; // How many nodes did they get?
+  let gotNode;
   const row = action.node.r;
   const col = action.node.c;
   const size = state.size;
   const xIsNext = state.xIsNext;
+  const score = state.score;
 
   if (action.line === 'vertical') {
     gridState[row][col].down = true;
-    [gridState, gotNode2] = updateOwner(gridState, xIsNext, row, col - 1, size);
+    [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col - 1, size);
   } else if (action.line === 'horizontal') {
     gridState[row][col].right = true;
-    [gridState, gotNode2] = updateOwner(gridState, xIsNext, row - 1, col, size);
+    [gridState, gotNode] = updateOwner(gridState, xIsNext, row - 1, col, size);
   }
-  gotNode = gotNode || gotNode2;
+  gotNodes += gotNode;
 
-  [gridState, gotNode2] = updateOwner(gridState, xIsNext, row, col, size);
-  gotNode = gotNode || gotNode2;
+  [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col, size);
+  gotNodes += gotNode;
 
   return {
     lastClicked: action.line ? null : state.lastClicked,
-    xIsNext: gotNode ? state.xIsNext : !state.xIsNext,
-    gridNodes: gridState
+    xIsNext: gotNode ? xIsNext : !xIsNext,
+    gridNodes: gridState,
+    score: {
+      x: (xIsNext ? score.x + gotNodes : score.x),
+      o: (xIsNext ? score.o : score.o + gotNodes),
+    }
   }
 }
 

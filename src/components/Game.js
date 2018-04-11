@@ -9,6 +9,7 @@ class Game extends Component {
 				size={this.props.size}
 				gridNodes={this.props.gridNodes}
 				xIsNext={this.props.xIsNext}
+				score={this.props.score}
 				nodeClicked={this.props.nodeClicked}
 				lastClicked={this.props.lastClicked}
 			/>

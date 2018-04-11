@@ -70,21 +70,26 @@ function nodeClicked(state, clickedNode) {
     };
   }
 
+  let gridState = state.gridNodes.slice();
+  let gotNodes = 0; // How many nodes did they get?
+  let gotNode;
+  const size = state.size;
+  const xIsNext = state.xIsNext;
+  const score = state.score;
+
   const action = setAction(state.lastClicked, clickedNode);
-  if (!action.line) {
+  if (
+    !action.line ||
+    (gridState[action.node.r][action.node.c].down && action.line === 'vertical') ||
+    (gridState[action.node.r][action.node.c].right && action.line === 'horizontal')
+  ) {
     return {
       lastClicked: clickedNode
     };
   }
 
-  let gridState = state.gridNodes.slice();
-  let gotNodes = 0; // How many nodes did they get?
-  let gotNode;
   const row = action.node.r;
   const col = action.node.c;
-  const size = state.size;
-  const xIsNext = state.xIsNext;
-  const score = state.score;
 
   if (action.line === 'vertical') {
     gridState[row][col].down = true;

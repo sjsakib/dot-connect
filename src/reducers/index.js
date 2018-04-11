@@ -67,7 +67,6 @@ function nodeClicked(state, clickedNode) {
   }
 
   const action = setAction(state.lastClicked, clickedNode);
-  console.log(action.line);
   if (!action.line) {
     return {
       lastClicked: clickedNode
@@ -93,8 +92,6 @@ function nodeClicked(state, clickedNode) {
 
   [gridState, gotNode2] = updateOwner(gridState, xIsNext, row, col, size);
   gotNode = gotNode || gotNode2;
-
-  console.log(gridState);
 
   return {
     lastClicked: action.line ? null : state.lastClicked,

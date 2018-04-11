@@ -6,7 +6,8 @@ class Node extends Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleClick() {
+	handleClick(e) {
+		e.preventDefault();
 		this.props.nodeClicked({
 			r: this.props.r,
 			c: this.props.c
@@ -24,6 +25,8 @@ class Node extends Component {
 			<div className="node">
 				<div
 					className={`core ${this.getSelectedClass()}`}
+					onMouseDown={this.handleClick}
+					onMouseUp={this.handleClick}
 					onClick={this.handleClick}
 				/>
 				<div className={`edge ${props.right ? 'right' : ''}`} />

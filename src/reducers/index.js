@@ -58,8 +58,8 @@ function nodeClicked(state, clickedNode) {
 
   const lastClicked = state.lastClicked;
   if (!lastClicked ||
-    (clickedNode.r == lastClicked.r &&
-      clickedNode.c == lastClicked.c)
+    (clickedNode.r === lastClicked.r &&
+      clickedNode.c === lastClicked.c)
   ) {
     return {
       lastClicked: clickedNode

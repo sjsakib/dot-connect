@@ -18,7 +18,11 @@ class Game extends Component {
 }
 
 Game.propTypes = {
-	size: PropTypes.number.isRequired,
+	size: PropTypes.shape({
+		r: PropTypes.number.isRequired,
+		c: PropTypes.number.isRequired
+	}).isRequired,
+
 	gridNodes: PropTypes.arrayOf(
 		PropTypes.arrayOf(
 			PropTypes.shape({
@@ -34,7 +38,12 @@ Game.propTypes = {
 		c: PropTypes.number.isRequired,
 	}),
 
-	xIsNext: PropTypes.bool.isRequired
+	xIsNext: PropTypes.bool.isRequired,
+
+	score: PropTypes.shape({
+		x: PropTypes.number.isRequired,
+		o: PropTypes.number.isRequired,
+	}).isRequired,
 }
 
 export default Game;

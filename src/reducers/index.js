@@ -1,4 +1,7 @@
-const size = 7;
+const size = {
+  r: 7,
+  c: 5,
+};
 const initialState = {
   size: size,
   lastClicked: null,
@@ -7,10 +10,10 @@ const initialState = {
     x: 0,
     o: 0,
   },
-  gridNodes: Array(size)
+  gridNodes: Array(size.r)
     .fill()
     .map(() =>
-      Array(size)
+      Array(size.c)
       .fill()
       .map(() => ({
         right: false,
@@ -50,8 +53,8 @@ function isValidMove(gridState, row, col, size) {
   return (
     row >= 0 &&
     col >= 0 &&
-    row < size - 1 &&
-    col < size - 1 &&
+    row < size.r - 1 &&
+    col < size.c - 1 &&
     !gridState[row][col].owner
   );
 }

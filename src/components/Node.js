@@ -25,8 +25,6 @@ class Node extends Component {
 			<div className="node">
 				<div
 					className={`core ${this.getSelectedClass()}`}
-					onMouseDown={this.handleClick}
-					onMouseUp={this.handleClick}
 					onClick={this.handleClick}
 				/>
 				<div className={`edge ${props.right ? 'right' : ''}`} />

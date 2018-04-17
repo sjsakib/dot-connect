@@ -70,3 +70,15 @@
 	left: 50%;
 	transform: translateX(-50%) translateY(-50%);
 }
+
+input[type=text] {
+	width: 60px;
+	margin: 20px;
+	text-align: center;
+}
+
+input[type=number] {
+	width: 30px;
+	margin: 20px;
+	text-align: center;
+}

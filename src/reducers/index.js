@@ -37,7 +37,7 @@ export default function(state = initialState, action) {
     case 'NODE_CLICKED':
       return {...state, ...nodeClicked(state, action.node)};
     case 'RESET_GAME':
-      return {...state, ...resetGame(initialState, action.size, action.players)};
+      return {...state, ...resetGame(action.size, action.players)};
     default:
       return state;
   }

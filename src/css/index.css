@@ -64,6 +64,11 @@
 	transform: translateY(-50%);
 }
 
+.game-footer {
+	width: 100%;
+	float: left;
+}
+
 input[type=text] {
 	width: 60px;
 	margin: 20px;

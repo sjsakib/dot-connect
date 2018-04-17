@@ -1,4 +1,4 @@
-function resetGame(state, size, players) {
+function resetGame(size, players) {
   return {
     size: size,
     lastClicked: null,

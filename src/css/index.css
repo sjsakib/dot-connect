@@ -56,19 +56,12 @@
 }
 
 
-.game-info {
-	text-align: center;
-}
-
-.ui-link {
-	text-align: center;
-}
-
 .home-ui {
 	position: absolute;
 	top: 50%;
-	left: 50%;
-	transform: translateX(-50%) translateY(-50%);
+	width: 100%;
+	text-align: center;
+	transform: translateY(-50%);
 }
 
 input[type=text] {
@@ -81,4 +74,5 @@ input[type=number] {
 	width: 30px;
 	margin: 20px;
 	text-align: center;
+	padding: 5px;
 }

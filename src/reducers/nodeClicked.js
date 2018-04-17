@@ -53,6 +53,7 @@ function nodeClicked(state, clickedNode) {
   const size = state.size;
   const xIsNext = state.xIsNext;
   const score = state.score;
+  const players = state.players;
 
   const action = setAction(state.lastClicked, clickedNode);
   if (
@@ -70,14 +71,14 @@ function nodeClicked(state, clickedNode) {
 
   if (action.line === 'vertical') {
     gridState[row][col].down = true;
-    [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col - 1, size);
+    [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col - 1, size, players);
   } else if (action.line === 'horizontal') {
     gridState[row][col].right = true;
-    [gridState, gotNode] = updateOwner(gridState, xIsNext, row - 1, col, size);
+    [gridState, gotNode] = updateOwner(gridState, xIsNext, row - 1, col, size, players);
   }
   gotNodes += gotNode;
 
-  [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col, size);
+  [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col, size, players);
   gotNodes += gotNode;
 
   return {
@@ -92,7 +93,7 @@ function nodeClicked(state, clickedNode) {
 }
 
 
-function updateOwner(gridState, xIsNext, row, col, size) {
+function updateOwner(gridState, xIsNext, row, col, size, players) {
   let gotNode = false;
   if (
     isValidMove(gridState, row, col, size) &&
@@ -101,7 +102,7 @@ function updateOwner(gridState, xIsNext, row, col, size) {
     gridState[row + 1][col].right &&
     gridState[row][col + 1].down
   ) {
-    gridState[row][col].owner = xIsNext ? 'X' : 'O';
+    gridState[row][col].owner = xIsNext ? players.x : players.o;
     gotNode = true;
   }
 

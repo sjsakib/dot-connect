@@ -9,14 +9,6 @@ import {
 } from 'react-router-dom'
 
 
-const Game = () => (
-  <div className="game-ui">
-    <GameContainer />
-    <div className="ui-link"><Link to='/'>Go Back</Link></div>
-  </div>
-)
-
-
 const Home = () => (
   <div className="home-ui">
     <li><Link to="/game">Go to game</Link></li>
@@ -28,7 +20,7 @@ const App = () => (
   <Router>
     <div>
       <Route exact path="/" component={Home}/>
-      <Route path="/game" component={Game}/>
+      <Route path="/game" component={GameContainer}/>
       <Route path="/start-game" component={GameForm}/>
     </div>
   </Router>

@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Grid from './Grid';
 
 class Game extends Component {
 	render() {
 		return (
-			<Grid
-				size={this.props.size}
-				gridNodes={this.props.gridNodes}
-				xIsNext={this.props.xIsNext}
-				score={this.props.score}
-				nodeClicked={this.props.nodeClicked}
-				lastClicked={this.props.lastClicked}
-			/>
+			<div className="container" style={{ width: (this.props.size.c-1) * 50 }}>
+				<Grid
+					size={this.props.size}
+					gridNodes={this.props.gridNodes}
+					xIsNext={this.props.xIsNext}
+					nodeClicked={this.props.nodeClicked}
+					lastClicked={this.props.lastClicked}
+				/>
+				<center>
+					To move: {this.props.xIsNext ? 'X' : 'O'}
+					<br/>
+					X - {this.props.score.x} : {this.props.score.o} - O
+					<br/> <br/>
+					<Link to="/"> Go Back </Link>
+				</center>
+			</div>
 		);
 	}
 }

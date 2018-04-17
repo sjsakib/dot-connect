@@ -18,9 +18,9 @@ class Game extends Component {
 				</div>
 				<div className="game-footer">
 					<center>
-						To move: {this.props.xIsNext ? 'X' : 'O'}
+						To move: {this.props.xIsNext ? this.props.players.x : this.props.players.o}
 						<br/>
-						X - {this.props.score.x} : {this.props.score.o} - O
+						{this.props.players.x} | {this.props.score.x} : {this.props.score.o} | {this.props.players.o}
 						<br/> <br/>
 						<Link to="/"> Go Back </Link>
 					</center>

@@ -102,7 +102,7 @@ function updateOwner(gridState, xIsNext, row, col, size, players) {
     gridState[row + 1][col].right &&
     gridState[row][col + 1].down
   ) {
-    gridState[row][col].owner = xIsNext ? players.x : players.o;
+    gridState[row][col].owner = xIsNext ? players.x[0] : players.o[0];
     gotNode = true;
   }
 

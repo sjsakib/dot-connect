@@ -40,13 +40,13 @@ class GameForm extends Component {
           <center>
             <label> Players: </label>
             <br />
-            <input type="text" name="x" defaultValue="X" /> VS
-            <input type="text" name="o" defaultValue="O" />
+            <input type="text" name="x" required defaultValue="X" /> VS
+            <input type="text" name="o" required defaultValue="O" />
             <br />
             <label> Size: </label>
             <br />
-            <input type="number" max="10" min="2" name="r" defaultValue="7" /> X
-            <input type="number" max="10" min="2" name="c" defaultValue="5" />
+            <input type="number" max="10" min="2" required name="r" defaultValue="7" /> X
+            <input type="number" max="10" min="2" required name="c" defaultValue="5" />
             <br />
             <button type="submit">Go</button>
           </center>

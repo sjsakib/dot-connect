@@ -59,3 +59,14 @@
 .game-info {
 	text-align: center;
 }
+
+.ui-link {
+	text-align: center;
+}
+
+.home-ui {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translateX(-50%) translateY(-50%);
+}

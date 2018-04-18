@@ -50,9 +50,9 @@ function nodeClicked(state, clickedNode) {
   let gridState = state.gridNodes.slice();
   let gotNodes = 0; // How many nodes did they get?
   let gotNode;
+  let xIsNext = state.xIsNext;
   const size = state.size;
-  const xIsNext = state.xIsNext;
-  const score = state.score;
+  let score = state.score;
   const players = state.players;
 
   const action = setAction(state.lastClicked, clickedNode);
@@ -81,14 +81,31 @@ function nodeClicked(state, clickedNode) {
   [gridState, gotNode] = updateOwner(gridState, xIsNext, row, col, size, players);
   gotNodes += gotNode;
 
+
+  xIsNext = (gotNodes ? xIsNext : !xIsNext);
+  score = {
+    x: (xIsNext ? score.x + gotNodes : score.x),
+    o: (xIsNext ? score.o : score.o + gotNodes),
+  };
+  let gameStatus;
+
+  if ( score.x + score.o === (size.r-1)*(size.c-1)) {
+    if ( score.x === score.o ) {
+      gameStatus = 'Draw!';
+    } else {
+      gameStatus = `${score.x > score.o ? players.x : players.o} won by ${Math.abs(score.x - score.o)} point(s)`;
+    }
+  } else {
+    gameStatus = `To move: ${xIsNext ? players.x : players.o}`;
+  }
+
+
   return {
     lastClicked: action.line ? null : state.lastClicked,
-    xIsNext: gotNodes ? xIsNext : !xIsNext,
+    xIsNext: xIsNext,
+    gameStatus: gameStatus,
     gridNodes: gridState,
-    score: {
-      x: (xIsNext ? score.x + gotNodes : score.x),
-      o: (xIsNext ? score.o : score.o + gotNodes),
-    }
+    score: score,
   }
 }
 

@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Grid from './Grid';
+import GameInfo from './Footer';
 
 class Game extends Component {
 	render() {
+		if( !this.props.size ) {
+			return (
+				<div className="home-ui">
+					Game not started
+				</div>
+			)
+		}
 		return (
 			<div>
 				<div className="container" style={{ width: (this.props.size.c-1) * 50 }}>
@@ -16,15 +23,7 @@ class Game extends Component {
 						lastClicked={this.props.lastClicked}
 					/>
 				</div>
-				<div className="game-footer">
-					<center>
-						To move: {this.props.xIsNext ? this.props.players.x : this.props.players.o}
-						<br/>
-						{this.props.players.x} | {this.props.score.x} : {this.props.score.o} | {this.props.players.o}
-						<br/> <br/>
-						<Link to="/"> Go Back </Link>
-					</center>
-				</div>
+				<GameInfo />
 			</div>
 		);
 	}

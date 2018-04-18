@@ -11,6 +11,7 @@ function resetGame(size, players) {
       x: players.x,
       o: players.o,
     },
+    gameStatus: `To move: ${players.x}`,
     gridNodes: Array(size.r)
       .fill()
       .map(() =>
@@ -22,7 +23,7 @@ function resetGame(size, players) {
           owner: null
         }))
       )
-    };
+  };
 }
 
 export default resetGame;

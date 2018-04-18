@@ -74,6 +74,10 @@
 
 li {
 	list-style: none;
+	line-height: 2em;
+}
+a {
+	text-decoration: none;
 }
 
 .game-footer {

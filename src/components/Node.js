@@ -23,10 +23,8 @@ class Node extends Component {
 
 		return (
 			<div className="node">
-				<div
-					className={`core ${this.getSelectedClass()}`}
-					onClick={this.handleClick}
-				/>
+				<div className={`core ${this.getSelectedClass()}`} />
+				<div className="outer-core" onClick={this.handleClick} />
 				<div className={`edge ${props.right ? 'right' : ''}`} />
 				<div className={`edge ${props.down ? 'down' : ''}`} />
 				<div className="owner">{props.owner}</div>

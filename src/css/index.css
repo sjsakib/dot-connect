@@ -30,6 +30,14 @@
 	border-radius: 50%;
 }
 
+.outer-core {
+	position: absolute;
+	width: 80%;
+	height: 80%;
+	top: -40%;
+	left: -40%;
+}
+
 .edge {
 	background-color: black;
 	position: absolute;

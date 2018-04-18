@@ -40,8 +40,8 @@ class GameForm extends Component {
           <center>
             <label> Players: </label>
             <br />
-            <input type="text" name="x" required defaultValue="X" /> VS
-            <input type="text" name="o" required defaultValue="O" />
+            <input type="text" name="x" required defaultValue="Ami" /> VS
+            <input type="text" name="o" required defaultValue="Tumi" />
             <br />
             <label> Size: </label>
             <br />

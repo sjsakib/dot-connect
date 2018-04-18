@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 const Rules = () => (
@@ -10,6 +11,7 @@ const Rules = () => (
       You can't pass move. <br />
       Whoever gets most points wins.
     </p>
+    <Link to="/">Back to menu</Link>
     </div>
 )
 

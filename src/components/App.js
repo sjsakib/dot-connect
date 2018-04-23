@@ -15,7 +15,7 @@ const App = () => (
     <div>
       <Route exact path="/" component={Menu}/>
       <Route path="/game" component={GameContainer}/>
-      <Route path="/start-game" component={GameForm}/>
+      <Route path="/game/start" component={GameForm}/>
       <Route path="/rules" component={Rules}/>
     </div>
   </Router>

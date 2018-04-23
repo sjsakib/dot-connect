@@ -15,7 +15,7 @@ const Home = (props) => {
   return (
     <div className="home-ui">
       {item}
-      <li><Link to="/start-game">Start a new game</Link></li>
+      <li><Link to="/game/start">Start a new game</Link></li>
       <li><Link to="/rules">Rules</Link></li>
     </div>
   )

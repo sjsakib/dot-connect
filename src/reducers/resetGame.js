@@ -1,5 +1,4 @@
-function resetGame(size, players, random) {
-  const xIsNext = (random ? Math.random() > 0.5 : true);
+function resetGame(size, players, xIsNext) {
   return {
     size: size,
     lastClicked: null,

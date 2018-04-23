@@ -13,6 +13,8 @@ class GameForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const form = e.target;
+    const firstmove = form.firstmove.value;
+    const xIsNext = (firstmove === 'Random' ? Math.random() > .5 : firstmove === 'You');
 
     this.props.dispatch({
       type: 'RESET_GAME',
@@ -24,7 +26,7 @@ class GameForm extends Component {
         r: Number(form.r.value),
         c: Number(form.c.value),
       },
-      random: form.random.value,
+      xIsNext: xIsNext,
     });
 
     this.setState({ redirect: true });
@@ -41,15 +43,20 @@ class GameForm extends Component {
           <center>
             <label> Players: </label>
             <br />
-            <input type="text" name="x" required defaultValue="Ami" /> VS
-            <input type="text" name="o" required defaultValue="Tumi" />
+            You: <input type="text" name="x" required defaultValue="Ami" /> <br/>
+            Opponent: <input type="text" name="o" required defaultValue="Tumi" />
             <br />
             <label> Size: </label>
             <br />
             <input type="number" max="10" min="2" required name="r" defaultValue="7" /> X
             <input type="number" max="10" min="2" required name="c" defaultValue="5" />
             <br />
-            <input type="checkbox" name="random" /> Randomize first move
+            First move: <br/>
+            <select type="select" name="firstmove">
+              <option> You </option>
+              <option> Opponent </option>
+              <option> Random </option>
+            </select>
             <br/> <br/> 
             <button type="submit">Go</button>
           </center>

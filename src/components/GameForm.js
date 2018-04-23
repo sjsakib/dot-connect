@@ -23,7 +23,8 @@ class GameForm extends Component {
       size: {
         r: Number(form.r.value),
         c: Number(form.c.value),
-      }
+      },
+      random: form.random.value,
     });
 
     this.setState({ redirect: true });
@@ -48,6 +49,8 @@ class GameForm extends Component {
             <input type="number" max="10" min="2" required name="r" defaultValue="7" /> X
             <input type="number" max="10" min="2" required name="c" defaultValue="5" />
             <br />
+            <input type="checkbox" name="random" /> Randomize first move
+            <br/> <br/> 
             <button type="submit">Go</button>
           </center>
         </form>

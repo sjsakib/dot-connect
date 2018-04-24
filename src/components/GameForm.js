@@ -16,25 +16,55 @@ class GameForm extends Component {
     const firstmove = form.firstmove.value;
     const xIsNext = (firstmove === 'Random' ? Math.random() > .5 : firstmove === 'You');
 
-    this.props.dispatch({
-      type: 'RESET_GAME',
-      players: {
-        x: form.x.value.trim(),
-        o: form.o.value.trim(),
-      },
-      size: {
-        r: Number(form.r.value),
-        c: Number(form.c.value),
-      },
+    const players = {
+      x: form.x.value.trim(),
+      o: form.o.value.trim(),
+    }
+    const size = {
+      r: Number(form.r.value),
+      c: Number(form.c.value),
+    }
+    const gameData = {
+      gameId: Math.floor(Math.random() * 100000),
+      size: size,
+      lastClicked: null,
       xIsNext: xIsNext,
+      score: {
+        x: 0,
+        o: 0,
+      },
+      players: players,
+      gameStatus: `To move: ${xIsNext ? players.x : players.o}`,
+      status: 'waiting_for_opponent',
+      gridNodes: Array(size.r)
+        .fill()
+        .map(() =>
+          Array(size.c)
+          .fill()
+          .map(() => ({
+            right: false,
+            down: false,
+            owner: null
+          }))
+        )
+    };
+
+    this.props.socket.emit('NEW_GAME', gameData)
+    this.props.dispatch({
+      type: 'UPDATE_STATE',
+      data: gameData,
     });
 
-    this.setState({ redirect: true });
+    this.setState({
+      redirect: true,
+      gameId: gameData.gameId,
+    });
   }
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/game" />
+      const path = `/game/${this.state.gameId}/play`
+      return <Redirect to={path} />
     }
 
     return (

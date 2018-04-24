@@ -1,24 +1,56 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import '../css/index.css';
 import GameContainer from '../containers/GameContainer';
 import GameForm from '../components/GameForm'
+import JoinForm from '../components/JoinForm'
 import Menu from '../components/Menu'
 import Rules from '../components/Rule'
+import io from 'socket.io-client'
 import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom'
 
+const socket = io('http://localhost:8080');
 
-const App = () => (
-  <Router>
-    <div>
-      <Route exact path="/" component={Menu}/>
-      <Route exact path="/game" component={GameContainer}/>
-      <Route exact path="/game/start" component={GameForm}/>
-      <Route exact path="/rules" component={Rules}/>
-    </div>
-  </Router>
-)
+class App extends Component {
+  constructor() {
+    super();
+    socket.on('SYNC', (data) => {
+      console.log(data)
+      this.props.dispatch({
+        type: 'UPDATE_STATE',
+        data: data,
+      })
+    });
+  }
 
-export default App;
+  render() {
+    return (
+      <Router>
+        <div>
+          <Route exact path="/" component={Menu}/>
+          <Route
+            exact
+            path="/game/:gameId/play"
+            render={()=><GameContainer socket={socket}/>}
+          />
+          <Route
+            exact
+            path="/game/start"
+            render={(props)=><GameForm socket={socket} {...props}/>}
+          />
+          <Route
+            exact
+            path="/game/:gameId/join"
+            render={(props)=><JoinForm socket={socket} {...props}/>}
+          />
+          <Route exact path="/rules" component={Rules}/>
+        </div>
+      </Router>
+    )
+  }
+}
+
+export default connect()(App);

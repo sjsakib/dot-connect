@@ -4,11 +4,6 @@ import Game from '../components/Game'
 
 const mapStateToProps = state => (state)
 
-const mapDispatchToProps = dispatch => ({
-  nodeClicked: node => dispatch(nodeClicked(node))
-})
-
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  mapStateToProps
 )(Game)

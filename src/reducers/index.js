@@ -6,12 +6,16 @@ const initialState = {
 };
 
 
-export default function(state = initialState, action) {
+export default function(state=initialState, action) {
   switch (action.type) {
     case 'NODE_CLICKED':
-      return {...state, ...nodeClicked(state, action.node)};
+      state =  {...state, ...nodeClicked(state, action.node)};
+      action.after(state);
+      return state;
     case 'RESET_GAME':
       return {...state, ...resetGame(action.size, action.players, action.xIsNext)};
+    case 'UPDATE_STATE':
+      return {...state, ...action.data}
     default:
       return state;
   }

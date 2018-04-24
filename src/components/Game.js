@@ -2,15 +2,39 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from './Grid';
 import GameInfo from './Footer';
+import MiddleText from './MiddleText'
 
 class Game extends Component {
+	sendState(state) {
+		this.props.socket.emit('SYNC', {
+			gameId: state.gameId,
+			gridNodes: state.gridNodes,
+			xIsnext: state.xIsNext,
+			gameStatus: state.gameStatus,
+			score: state.score,
+		});
+	}
+
+	nodeClicked(node) {
+		this.props.dispatch({
+			type: 'NODE_CLICKED',
+			node: node,
+			after: this.sendState.bind(this),
+		})
+	}
+
 	render() {
-		if( !this.props.size ) {
-			return (
-				<div className="home-ui">
-					Game not started
-				</div>
+		if( this.props.status === 'waiting_for_opponent' ) {
+			const path = `/game/${this.props.gameId}/join`
+			const element = (
+				<p>
+					Click
+					<a href={path} target="_blank">{path}</a>
+					to join the game
+				</p>
 			)
+			// return <MiddleText element={element}/>
+			return element
 		}
 		return (
 			<div>
@@ -19,7 +43,7 @@ class Game extends Component {
 						size={this.props.size}
 						gridNodes={this.props.gridNodes}
 						xIsNext={this.props.xIsNext}
-						nodeClicked={this.props.nodeClicked}
+						nodeClicked={this.nodeClicked.bind(this)}
 						lastClicked={this.props.lastClicked}
 					/>
 				</div>

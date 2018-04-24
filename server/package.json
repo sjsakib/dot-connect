@@ -1,0 +1,12 @@
+{
+  "name": "dot-connect-server",
+  "version": "1.0.0",
+  "description": "server for dot-connect",
+  "main": "index.js",
+  "author": "sjsakib",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "socket.io": "^2.1.0"
+  }
+}

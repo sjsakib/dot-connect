@@ -45,11 +45,6 @@ io.on('connection', function(socket){
 
   socket.on('SYNC', function(data){
     games[data.gameId] = data;
-    socket.broadcast.to(data.gameId).emit('SYNC', {
-      ...data,
-      ...{
-        isX: !data.isX,
-      }
-    });
+    socket.broadcast.to(data.gameId).emit('SYNC', data);
   })
 });

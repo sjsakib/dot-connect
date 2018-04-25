@@ -10,7 +10,7 @@ class Game extends Component {
 		this.props.socket.emit('SYNC', {
 			gameId: state.gameId,
 			gridNodes: state.gridNodes,
-			xIsnext: state.xIsNext,
+			xIsNext: state.xIsNext,
 			gameStatus: state.gameStatus,
 			score: state.score,
 		});

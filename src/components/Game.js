@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from './Grid';
 import GameInfo from './Footer';
 import MiddleText from './MiddleText'
+import { siteUrl } from '../config.js'
 
 class Game extends Component {
 	sendState(state) {
@@ -25,7 +26,7 @@ class Game extends Component {
 
 	render() {
 		if( this.props.status === 'waiting_for_opponent' ) {
-			const path = `http://dot-connect.netlify.com/game/${this.props.gameId}/join`
+			const path = siteUrl + `/game/${this.props.gameId}/join`
 			const element = (
 				<p>
 					Share this link to play with a friend <br />

@@ -28,8 +28,11 @@ class JoinForm extends Component {
 
     this.props.socket.emit('JOIN_GAME', this.props.match.params.gameId)
     this.props.dispatch({
-      type: 'UPDATE_PLAYER',
-      name: form.o.value.trim(),
+      type: 'UPDATE_STATE',
+      data: {
+        players:
+          x: this.props.players.x,
+          o: form.o.value.trim(),
     });
 
     const gameId = this.props.match.params.gameId;

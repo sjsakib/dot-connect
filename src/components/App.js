@@ -7,7 +7,7 @@ import JoinForm from '../components/JoinForm'
 import Menu from '../components/Menu'
 import Rules from '../components/Rule'
 import io from 'socket.io-client'
-import apiUrl from '../config.js'
+import { apiUrl } from '../config.js'
 import {
   BrowserRouter as Router,
   Route,

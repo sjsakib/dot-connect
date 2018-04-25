@@ -25,16 +25,14 @@ class Game extends Component {
 
 	render() {
 		if( this.props.status === 'waiting_for_opponent' ) {
-			const path = `/game/${this.props.gameId}/join`
+			const path = `http://dot-connect.netlify.com/game/${this.props.gameId}/join`
 			const element = (
 				<p>
-					Click
-					<a href={path} target="_blank">{path}</a>
-					to join the game
+					Share this link to play with a friend <br />
+					<input type="url" defaultValue={path} />
 				</p>
 			)
-			// return <MiddleText element={element}/>
-			return element
+			return <MiddleText element={element}/>
 		}
 		return (
 			<div>

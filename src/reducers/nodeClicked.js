@@ -39,6 +39,7 @@ function nodeClicked(state, clickedNode) {
 
   const lastClicked = state.lastClicked;
   if (!lastClicked ||
+    state.isX !== state.xIsNext ||
     (clickedNode.r === lastClicked.r &&
       clickedNode.c === lastClicked.c)
   ) {

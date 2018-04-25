@@ -1,8 +1,8 @@
 import React from 'react'
 
-const MiddleText = ({ text }) => (
+const MiddleText = (props) => (
   <div className="home-ui">
-    {text}
+    {props.element}
   </div>
 )
 

@@ -38,14 +38,18 @@ io.on('connection', function(socket){
       ...games[gameId],
       ...{
         status: 'waiting_to_join',
+        isX: !games[gameId].isX,
       }
     });
   });
 
   socket.on('SYNC', function(data){
-    console.log(data);
     games[data.gameId] = data;
-    console.log(data.gameId);
-    socket.broadcast.to(data.gameId).emit('SYNC', data);
+    socket.broadcast.to(data.gameId).emit('SYNC', {
+      ...data,
+      ...{
+        isX: !data.isX,
+      }
+    });
   })
 });

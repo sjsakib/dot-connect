@@ -29,6 +29,7 @@ class GameForm extends Component {
       size: size,
       lastClicked: null,
       xIsNext: xIsNext,
+      isX: true,
       score: {
         x: 0,
         o: 0,

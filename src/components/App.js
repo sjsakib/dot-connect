@@ -7,12 +7,13 @@ import JoinForm from '../components/JoinForm'
 import Menu from '../components/Menu'
 import Rules from '../components/Rule'
 import io from 'socket.io-client'
+import apiUrl from '../config.js'
 import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom'
 
-const socket = io('http://localhost:8080');
+const socket = io(apiUrl);
 
 class App extends Component {
   constructor() {

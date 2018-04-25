@@ -30,9 +30,11 @@ class JoinForm extends Component {
     this.props.dispatch({
       type: 'UPDATE_STATE',
       data: {
-        players:
+        players: {
           x: this.props.players.x,
           o: form.o.value.trim(),
+        }
+      }
     });
 
     const gameId = this.props.match.params.gameId;

@@ -1,7 +1,8 @@
-const apiUrl = 'https://dot-connect-server-gdsduczklr.now.sh'
-const siteUrl = 'http://dot-connect.netlify.com'
+const apiUrl = 'http://localhost:8080'
+const siteUrl = 'http://localhost:3000'
 
-export default {
+export {
   apiUrl,
   siteUrl,
 }
+

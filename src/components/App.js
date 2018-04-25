@@ -25,6 +25,11 @@ class App extends Component {
         data: data,
       })
     });
+    socket.on('connection', () => {
+      if(this.props.status === 'started') {
+        socket.emit('REJOIN', this.props.gameId);
+      }
+    })
   }
 
   render() {

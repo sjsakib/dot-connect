@@ -27,9 +27,7 @@ class App extends Component {
     });
 
     socket.on('connect', () => {
-      if(this.props.status === 'started') {
-        socket.emit('REJOIN', this.props.gameId);
-      }
+      console.log('connected...')
       this.props.dispatch({
         type: 'UPDATE_STATE',
         data: {
@@ -38,7 +36,16 @@ class App extends Component {
       });
     });
 
+    socket.on('reconnect', () => {
+      console.log('reconnected...');
+      if(this.props.status === 'started') {
+        console.log('rejoining...');
+        socket.emit('REJOIN', this.props.gameId);
+      }
+    });
+
     socket.on('disconnect', () => {
+      console.log('disconnected...')
       this.props.dispatch({
         type: 'UPDATE_STATE',
         data: {
@@ -76,4 +83,6 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps)(App);

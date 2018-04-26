@@ -19,7 +19,6 @@ class App extends Component {
   constructor() {
     super();
     socket.on('SYNC', (data) => {
-      console.log(data)
       this.props.dispatch({
         type: 'UPDATE_STATE',
         data: data,

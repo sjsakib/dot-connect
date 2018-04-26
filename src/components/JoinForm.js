@@ -26,8 +26,10 @@ class JoinForm extends Component {
     e.preventDefault();
     const form = e.target;
 
-    this.props.socket.emit('JOIN_GAME', this.props.match.params.gameId);
+    const gameId = this.props.match.params.gameId;
+    this.props.socket.emit('JOIN_GAME', gameId);
     const data = {
+      gameId,
       players: {
         x: this.props.players.x,
         o: form.o.value.trim(),
@@ -41,7 +43,6 @@ class JoinForm extends Component {
       data,
     });
 
-    const gameId = this.props.match.params.gameId;
     this.setState({
       redirect: true,
       gameId: gameId,

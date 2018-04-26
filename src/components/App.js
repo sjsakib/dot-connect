@@ -26,7 +26,7 @@ class App extends Component {
       })
     });
 
-    socket.on('connection', () => {
+    socket.on('connect', () => {
       if(this.props.status === 'started') {
         socket.emit('REJOIN', this.props.gameId);
       }
@@ -38,7 +38,7 @@ class App extends Component {
       });
     });
 
-    socket.on('disconnected', () => {
+    socket.on('disconnect', () => {
       this.props.dispatch({
         type: 'UPDATE_STATE',
         data: {

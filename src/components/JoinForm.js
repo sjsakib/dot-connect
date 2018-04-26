@@ -31,7 +31,8 @@ class JoinForm extends Component {
       players: {
         x: this.props.players.x,
         o: form.o.value.trim(),
-      }
+      },
+      status: 'started',
     };
 
     this.props.socket.emit('SYNC', data)

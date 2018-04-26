@@ -26,15 +26,18 @@ class JoinForm extends Component {
     e.preventDefault();
     const form = e.target;
 
-    this.props.socket.emit('JOIN_GAME', this.props.match.params.gameId)
+    this.props.socket.emit('JOIN_GAME', this.props.match.params.gameId);
+    const data = {
+      players: {
+        x: this.props.players.x,
+        o: form.o.value.trim(),
+      }
+    };
+
+    this.props.socket.emit('SYNC', data)
     this.props.dispatch({
       type: 'UPDATE_STATE',
-      data: {
-        players: {
-          x: this.props.players.x,
-          o: form.o.value.trim(),
-        }
-      }
+      data,
     });
 
     const gameId = this.props.match.params.gameId;

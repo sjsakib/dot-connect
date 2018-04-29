@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from './Grid';
 import GameInfo from './Footer';
-import MiddleText from './MiddleText'
+import { ShareLink } from './utilities'
 import { siteUrl } from '../config.js'
 
 class Game extends Component {
@@ -27,13 +27,7 @@ class Game extends Component {
 	render() {
 		if( this.props.status === 'waiting_for_opponent' ) {
 			const path = siteUrl + `/game/${this.props.gameId}/join`
-			const element = (
-				<p>
-					Share this link to play with a friend <br />
-					<input type="url" defaultValue={path} />
-				</p>
-			)
-			return <MiddleText element={element}/>
+			return <ShareLink value={path}/>
 		}
 		return (
 			<div>

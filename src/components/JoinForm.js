@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import MiddleText from './MiddleText'
+import { MiddleText } from './utilities'
 
 class JoinForm extends Component {
   constructor(props) {
@@ -55,7 +55,7 @@ class JoinForm extends Component {
       return <Redirect to={path} />
     }
 
-    const connecting = <MiddleText text="Connecting..." />;
+    const connecting = <MiddleText element="Connecting..." />;
 
     if (this.props.status === 'waiting_for_response' || !this.props.status) {
       return connecting;

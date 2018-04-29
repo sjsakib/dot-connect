@@ -37,7 +37,12 @@ class JoinForm extends Component {
       status: 'started',
     };
 
-    this.props.socket.emit('SYNC', data)
+    this.props.socket.emit('SYNC', data);
+    this.props.dispatch({
+      type: 'CONNECTION_CHANGED',
+      self: true,
+      connected: true,
+    });
     this.props.dispatch({
       type: 'UPDATE_STATE',
       data,

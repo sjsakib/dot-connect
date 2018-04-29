@@ -15,7 +15,12 @@ io.on('connection', function(socket){
   socket.on('NEW_GAME', function(data) {
     games[data.gameId] = data;
     socket.join(data.gameId);
-    console.log('new game' + data.gameId)
+
+    socket.emit('CONNECTED');
+
+    socket.on('disconnect', function(){
+      socket.broadcast.to(data.gameId).emit('PEER_DISCONNECTED');
+    });
   });
 
   socket.on('JOIN_GAME', function(gameId){
@@ -27,6 +32,13 @@ io.on('connection', function(socket){
         socket.broadcast.to(gameId).emit('SYNC', {
           ...games[gameId],
           ...{ status: 'started' }
+        });
+
+        socket.broadcast.to(gameId).emit('PEER_CONNECTED');
+        socket.emit('PEER_CONNECTED');
+
+        socket.on('disconnect', function(){
+          socket.broadcast.to(gameId).emit('PEER_DISCONNECTED');
         });
       }
     });
@@ -50,6 +62,7 @@ io.on('connection', function(socket){
 
   socket.on('REJOIN', function(gameId){
     socket.join(gameId);
+    socket.broadcast.to(gameId).emit('PEER_CONNECTED');
   });
 
 });

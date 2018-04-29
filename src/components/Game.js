@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from './Grid';
 import GameInfo from './Footer';
-import { ShareLink } from './utilities'
+import { ShareLink, MiddleText } from './utilities'
 import { siteUrl } from '../config.js'
 
 class Game extends Component {
@@ -28,6 +28,10 @@ class Game extends Component {
 		if( this.props.status === 'waiting_for_opponent' ) {
 			const path = siteUrl + `/game/${this.props.gameId}/join`
 			return <ShareLink value={path}/>
+		}
+
+		if( !this.props.size ) {
+			return <MiddleText element="Game does not exists or expired" />;
 		}
 		return (
 			<div>

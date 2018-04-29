@@ -1,5 +1,6 @@
 import nodeClicked from './nodeClicked';
 import resetGame from './resetGame';
+import connection_changed from './connection_changed';
 
 const initialState = {
   gameStatus: 'Game not started',
@@ -16,6 +17,8 @@ export default function(state=initialState, action) {
       return {...state, ...resetGame(action.size, action.players, action.xIsNext)};
     case 'UPDATE_STATE':
       return {...state, ...action.data}
+    case 'CONNECTION_CHANGED':
+      return {...state, ...connection_changed(state, action)};
     default:
       return state;
   }

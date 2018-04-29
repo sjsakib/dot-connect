@@ -25,31 +25,50 @@ class App extends Component {
       })
     });
 
-    socket.on('connect', () => {
-      console.log('connected...')
-      this.props.dispatch({
-        type: 'UPDATE_STATE',
-        data: {
-          connected: true,
-        }
-      });
-    });
-
     socket.on('reconnect', () => {
       console.log('reconnected...');
       if(this.props.status === 'started') {
         console.log('rejoining...');
         socket.emit('REJOIN', this.props.gameId);
       }
+      this.props.dispatch({
+        type: 'CONNECTION_CHANGED',
+        self: true,
+        connected: true,
+      })
     });
 
     socket.on('disconnect', () => {
       console.log('disconnected...')
       this.props.dispatch({
-        type: 'UPDATE_STATE',
-        data: {
-          connected: false,
-        }
+        type: 'CONNECTION_CHANGED',
+        self: true,
+        connected: false,
+      });
+    });
+
+    socket.on('PEER_DISCONNECTED', () => {
+      this.props.dispatch({
+        type: 'CONNECTION_CHANGED',
+        self: false,
+        connected: false
+      });
+    });
+
+    socket.on('PEER_CONNECTED', () => {
+      console.log('peer connected');
+      this.props.dispatch({
+        type: 'CONNECTION_CHANGED',
+        self: false,
+        connected: true
+      });
+    });
+
+    socket.on('CONNECTED', () => {
+      this.props.dispatch({
+        type: 'CONNECTION_CHANGED',
+        self: true,
+        connected: true
       });
     });
 

@@ -8,7 +8,9 @@ const GameInfo = (props) =>  (
     <center>
       {props.gameStatus}
       <br/>
+      <span style={{color: props.connected.x ? 'green' : 'grey'}}> ∙ </span>
       {props.score}
+      <span style={{color: props.connected.o ? 'green' : 'grey'}}> ∙ </span>
       <br/> <br/>
       <Link to="/"> Go Back </Link>
     </center>
@@ -17,7 +19,8 @@ const GameInfo = (props) =>  (
 
 const mapStateToProps = state => ({
   gameStatus: state.gameStatus,
-  score: `${state.players.x} | ${state.score.x} : ${state.score.o} | ${state.players.o}`
+  score: `${state.players.x} | ${state.score.x} : ${state.score.o} | ${state.players.o}`,
+  connected: state.connected,
 })
 
 export default connect(mapStateToProps)(GameInfo)

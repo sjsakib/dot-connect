@@ -9,7 +9,8 @@ const Home = (props) => {
   if (status.includes('not started')) {
     item = null;
   } else {
-    item = <li><Link to="/game">Go back to game</Link></li>
+    const path = `/game/${props.gameId}/play`;
+    item = <li><Link to={path}>Go back to game</Link></li>
   }
 
   return (
@@ -23,6 +24,7 @@ const Home = (props) => {
 
 const mapStateToProps = state => ({
   gameStatus: state.gameStatus,
+  gameId: state.gameId,
 })
 
 export default connect(mapStateToProps)(Home)

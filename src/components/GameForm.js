@@ -74,8 +74,8 @@ class GameForm extends Component {
           <center>
             <label> Players: </label>
             <br />
-            You: <input type="text" name="x" required defaultValue="Ami" /> <br/>
-            Opponent: <input type="text" name="o" required defaultValue="Tumi" />
+            You: <input type="text" name="x" required defaultValue="X" /> <br/>
+            Opponent: <input type="text" name="o" required defaultValue="O" />
             <br />
             <label> Size: </label>
             <br />

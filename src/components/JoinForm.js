@@ -70,21 +70,38 @@ class JoinForm extends Component {
     const playerO = this.props.players.o;
 
     return (
-      <div className="home-ui">
+      <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <center>
-            <label> Players: </label>
-            <br />
-            You: <input type="text" name="o" required defaultValue={playerO} /> <br/>
-            Opponent: <input type="text" name="x" required disabled defaultValue={playerX} />
-            <br />
-            <label> Size: </label>
-            <br />
-            <input type="number" max="10" min="2" name="r" defaultValue={this.props.size.r} required disabled/> X
-            <input type="number" max="10" min="2" name="c" defaultValue={this.props.size.c} required disabled/>
-            <br/> <br/> 
-            <button type="submit">Join</button>
-          </center>
+          <div className="field">
+            <label className="label"> Players </label>
+            <div className="field has-addons has-addons-centered">
+              <div className="control">
+                <input className="input" type="text" name="o" required defaultValue={playerO} />
+                <p className="help">Change your name if you want</p>
+              </div>
+              <p className="control">
+                <a className="button is-static">VS</a>
+              </p>
+              <p className="control">
+                <input className="input" type="text" name="x" readOnly value={playerX} />
+              </p>
+            </div>
+          </div>
+          <div className="field">
+            <label className="label"> Size </label>
+            <div className="field has-addons has-addons-centered">
+              <p className="control">
+                <input className="input" type="number" name="r" readOnly value={this.props.size.r}/>
+              </p>
+              <p className="control">
+                <a className="button is-static">X</a>
+              </p>
+              <p className="control">
+                <input className="input" type="number" name="c" readOnly value={this.props.size.c}/>
+              </p>
+            </div>
+          </div>
+          <button className="button is-primary" type="submit">Go</button>
         </form>
       </div>
     )

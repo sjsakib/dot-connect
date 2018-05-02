@@ -5,21 +5,27 @@ import { Link } from 'react-router-dom';
 
 const GameInfo = (props) =>  (
   <div className="game-footer">
-    <center>
-      {props.gameStatus}
-      <br/>
-      <span style={{color: props.connected.x ? 'green' : 'grey'}}> ∙ </span>
-      {props.score}
-      <span style={{color: props.connected.o ? 'green' : 'grey'}}> ∙ </span>
-      <br/> <br/>
-      <Link to="/"> Go Back </Link>
-    </center>
-  </div>
+        <span className="tag is-medium is-centered is-link">{props.gameStatus}</span>
+        <div className="score tags has-addons">
+          <span className="tag is-medium" style={{color: props.connected.x ? 'green' : 'grey'}}>•</span>
+          <span className="tag is-info is-medium"> {props.x} </span>
+          <span className="tag is-link is-medium"> {props.xScore} </span>
+          <span className="tag is-link is-medium"> {props.oScore} </span>
+          <span className="tag is-info is-medium"> {props.o} </span>
+          <span className="tag is-medium" style={{color: props.connected.o ? 'green' : 'grey'}}> • </span>
+        </div>
+      <p className="button is-primary">
+        <Link to="/"> Go Back </Link>
+      </p>
+  </div> 
 )
 
 const mapStateToProps = state => ({
   gameStatus: state.gameStatus,
-  score: `${state.players.x} | ${state.score.x} : ${state.score.o} | ${state.players.o}`,
+  x: state.players.x,
+  o: state.players.o,
+  xScore: state.score.x,
+  oScore: state.score.o,
   connected: state.connected,
 })
 

@@ -15,8 +15,8 @@ const Home = (props) => {
 
   return (
     <div>
-      <h3 class="title has-text-grey">Dot Connect</h3>
-      <p class="subtitle has-text-grey">Play the childhood game online with friends</p>
+      <h3 className="title has-text-grey">Dot Connect</h3>
+      <p className="subtitle has-text-grey">Play the childhood game online with friends</p>
       <div className="box">
         <ul className="menu-list">
           {item}

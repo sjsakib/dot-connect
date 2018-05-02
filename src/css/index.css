@@ -30,6 +30,7 @@ p.subtitle {
 	left: -10px;
 	top: -10px;
 	margin: auto;
+	z-index: 5;
 }
 
 .core.selected {
@@ -52,7 +53,7 @@ p.subtitle {
 .edge {
 	background-color: black;
 	position: absolute;
-	z-index: -1;
+	z-index: 0;
 }
 
 .right {

@@ -14,10 +14,16 @@ const Home = (props) => {
   }
 
   return (
-    <div className="home-ui">
-      {item}
-      <li><Link to="/game/start">Start a new game</Link></li>
-      <li><Link to="/rules">Rules</Link></li>
+    <div>
+      <h3 class="title has-text-grey">Dot Connect</h3>
+      <p class="subtitle has-text-grey">Play the childhood game online with friends</p>
+      <div className="box">
+        <ul className="menu-list">
+          {item}
+          <li><Link to="/game/start">Start a new game</Link></li>
+          <li><Link to="/rules">Rules</Link></li>
+        </ul>
+      </div>
     </div>
   )
 }

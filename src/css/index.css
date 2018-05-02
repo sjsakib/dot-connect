@@ -1,3 +1,14 @@
+.hero.is-success {
+  background: #F2F6FA;
+}
+
+p {
+  font-weight: 700;
+}
+p.subtitle {
+  padding-top: 1rem;
+}
+
 .container {
 	width: 115px;
 	margin: 20px auto;
@@ -63,37 +74,13 @@
 	text-align: center;
 }
 
-
-.home-ui {
-	position: absolute;
-	top: 50%;
-	width: 100%;
-	text-align: center;
-	transform: translateY(-50%);
-}
-
-li {
-	list-style: none;
-	line-height: 2em;
-}
-a {
-	text-decoration: none;
-}
-
 .game-footer {
 	width: 100%;
 	float: left;
 }
 
-input[type=text] {
-	width: 60px;
-	margin: 10px;
+input {
 	text-align: center;
 }
 
-input[type=number] {
-	width: 30px;
-	margin: 10px;
-	text-align: center;
-	padding: 5px;
-}
+

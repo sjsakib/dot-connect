@@ -69,28 +69,51 @@ class GameForm extends Component {
     }
 
     return (
-      <div className="home-ui">
+      <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
-          <center>
-            <label> Players: </label>
-            <br />
-            You: <input type="text" name="x" required defaultValue="X" /> <br/>
-            Opponent: <input type="text" name="o" required defaultValue="O" />
-            <br />
-            <label> Size: </label>
-            <br />
-            <input type="number" max="10" min="2" required name="r" defaultValue="7" /> X
-            <input type="number" max="10" min="2" required name="c" defaultValue="5" />
-            <br />
-            First move: <br/>
-            <select type="select" name="firstmove">
-              <option> You </option>
-              <option> Opponent </option>
-              <option> Random </option>
-            </select>
-            <br/> <br/> 
-            <button type="submit">Go</button>
-          </center>
+          <div className="field">
+            <label class="label"> Players </label>
+            <div className="field has-addons has-addons-centered">
+              <p class="control">
+                <input className="input" type="text" name="x" required defaultValue="X" placeholder="You" />
+              </p>
+              <p class="control">
+                <a class="button is-static">VS</a>
+              </p>
+              <p className="control">
+                <input className="input" type="text" name="o" required defaultValue="O" placeholder="Opponent"/>
+              </p>
+            </div>
+          </div>
+          <div className="field">
+            <label class="label"> Size </label>
+            <div className="field has-addons has-addons-centered">
+              <p class="control">
+              <input className="input" type="number" max="10" min="2" required name="r" defaultValue="7" />
+              </p>
+              <p class="control">
+                <a class="button is-static">X</a>
+              </p>
+              <p className="control">
+              <input className="input" type="number" max="10" min="2" required name="c" defaultValue="5" />
+              </p>
+            </div>
+          </div>
+          <div className="field">
+            <label class="label"> First move </label>
+            <div className="field is-grouped is-grouped-centered">
+              <div class="control">
+                <div class="select">
+                  <select type="select" name="firstmove">
+                    <option> You </option>
+                    <option> Opponent </option>
+                    <option> Random </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div> 
+            <button className="button is-primary" type="submit">Go</button>
         </form>
       </div>
     )

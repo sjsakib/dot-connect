@@ -3,7 +3,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 
 const MiddleText = (props) => (
-  <div className="home-ui">
+  <div className="subtitle has-text-grey">
     {props.element}
   </div>
 )
@@ -16,16 +16,21 @@ class ShareLink extends React.Component {
  
   render() {
     return (
-      <div className="home-ui">
-        <p> Share this link to play with a friend</p>
-        <p> {this.props.value} </p>
+      <div>
+        <h3 className="title has-text-grey">Share Link</h3>
+        <p className="subtitle has-text-grey">
+          Share this link to play with a friend
+        </p>
+        <p className="control">
+          <input className="input" defaultValue={this.props.value} />
+        </p>
+        <br/>
         <CopyToClipboard text={this.props.value}
           onCopy={() => this.setState({copied: true})}>
-          <button>Copy to clipboard</button>
+          <button className="button is-info">
+            {this.state.copied ? 'Copied' : 'Copy to clipboard'}
+          </button>
         </CopyToClipboard>
-        <br/>
-        <br/>
-        {this.state.copied ? <span style={{color: 'blue'}}>Copied</span> : null}
       </div>
     );
   }

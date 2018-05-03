@@ -11,9 +11,9 @@
 	justify-content: center;
 }
 
-.tag:last-child {
+/*.tag:last-child {
 	margin: 0;
-}
+}*/
 
 p.subtitle {
   padding-top: 1rem;

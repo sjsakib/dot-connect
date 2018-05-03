@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 
 const GameInfo = (props) =>  (
   <div className="game-footer">
-        <span className="tag is-medium is-centered is-link">{props.gameStatus}</span>
+        <span className="tag is-centered is-link">{props.gameStatus}</span>
         <div className="score tags has-addons">
-          <span className="tag is-medium" style={{color: props.connected.x ? 'green' : 'grey'}}>•</span>
-          <span className="tag is-info is-medium"> {props.x} </span>
-          <span className="tag is-link is-medium"> {props.xScore} </span>
-          <span className="tag is-link is-medium"> {props.oScore} </span>
-          <span className="tag is-info is-medium"> {props.o} </span>
-          <span className="tag is-medium" style={{color: props.connected.o ? 'green' : 'grey'}}> • </span>
+          <span className="tag" style={{color: props.connected.x ? 'green' : 'grey'}}>•</span>
+          <span className="tag is-info"> {props.x} </span>
+          <span className="tag is-link"> {props.xScore} </span>
+          <span className="tag is-link"> {props.oScore} </span>
+          <span className="tag is-info"> {props.o} </span>
+          <span className="tag" style={{color: props.connected.o ? 'green' : 'grey'}}>•</span>
         </div>
       <p className="button is-primary">
         <Link to="/"> Go Back </Link>

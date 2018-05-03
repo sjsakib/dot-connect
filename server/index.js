@@ -13,6 +13,12 @@ app.get('/', function (req, res) {
 io.on('connection', function(socket){
 
   socket.on('NEW_GAME', function(data) {
+    // leave all previous rooms
+    const rooms = Object.keys(socket.rooms);
+    rooms.forEach(function(room){
+      socket.leave(room);
+    });
+
     games[data.gameId] = data;
     socket.join(data.gameId);
 
@@ -28,6 +34,12 @@ io.on('connection', function(socket){
     io.of('/').in(gameId).clients((error, inRoom) => {
       if(error) throw error;
       if(inRoom.length === 1) {
+        // leave all previous games
+        const rooms = Object.keys(socket.rooms);
+        rooms.forEach(function(room){
+          socket.leave(room);
+        });
+
         socket.join(gameId);
         socket.broadcast.to(gameId).emit('SYNC', {
           ...games[gameId],

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-
+import logo from '../img/logo.png';
 
 const Home = (props) => {
   let item;
@@ -15,8 +15,8 @@ const Home = (props) => {
 
   return (
     <div>
-      <h3 className="title has-text-grey">Dot Connect</h3>
-      <p className="subtitle has-text-grey">Play the childhood game online with friends</p>
+      <img src={logo} alt="DOT CONNECT" />
+      <p className="subtitle has-text-grey">Play your favorite childhood game online with friends</p>
       <div className="box">
         <ul className="menu-list">
           {item}

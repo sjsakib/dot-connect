@@ -7,9 +7,6 @@ const MiddleText = (props) => (
   <div>
     {props.element}
     <br/>
-    <button className="button is-primary back">
-        <Link to="/"> Go Back </Link>
-    </button>
   </div>
 )
 

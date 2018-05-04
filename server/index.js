@@ -72,9 +72,10 @@ io.on('connection', function(socket){
     socket.broadcast.to(data.gameId).emit('SYNC', data);
   });
 
-  socket.on('REJOIN', function(gameId){
-    socket.join(gameId);
-    socket.broadcast.to(gameId).emit('PEER_CONNECTED');
+  socket.on('REJOIN', function(data){
+    socket.join(data.gameId);
+    socket.broadcast.to(data.gameId).emit('SYNC', data);
+    socket.broadcast.to(data.gameId).emit('PEER_CONNECTED');
   });
 
 });

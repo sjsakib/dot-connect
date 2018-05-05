@@ -45,7 +45,10 @@ function nodeClicked(state, clickedNode) {
       clickedNode.c === lastClicked.c)
   ) {
     return {
-      lastClicked: clickedNode
+      ...state,
+      ...{
+        lastClicked: clickedNode
+      }
     };
   }
 
@@ -64,7 +67,10 @@ function nodeClicked(state, clickedNode) {
     (gridState[action.node.r][action.node.c].right && action.line === 'horizontal')
   ) {
     return {
-      lastClicked: clickedNode
+      ...state,
+      ...{
+        lastClicked: clickedNode
+      }
     };
   }
 
@@ -102,12 +108,60 @@ function nodeClicked(state, clickedNode) {
   }
 
 
-  return {
-    lastClicked: action.line ? null : state.lastClicked,
-    xIsNext: xIsNext,
-    gameStatus: gameStatus,
-    gridNodes: gridState,
-    score: score,
+  let newState =  {
+    ...state,
+    ...{
+      lastClicked: action.line ? null : state.lastClicked,
+      xIsNext: xIsNext,
+      gameStatus: gameStatus,
+      gridNodes: gridState,
+      score: score,
+    }
+  };
+
+  if (!gotNodes) return newState;
+
+  newState = getNeighbour(newState, row, col);
+  
+  if (action.line === 'vertical') {
+    newState = getNeighbour(newState, row, col-1);
+  }
+  
+  if (action.line === 'horizontal') {
+    newState = getNeighbour(newState, row-1, col);
+  }
+
+  return newState;
+}
+
+
+function getNeighbour(state, row, col) {
+  const gridState = state.gridNodes;
+  const size = state.size;
+  if (
+    !isValidMove(gridState, row, col, size) ||
+    (gridState[row][col].right +
+    gridState[row][col].down +
+    gridState[row + 1][col].right +
+    gridState[row][col + 1].down) !== 3
+  ) {
+    return state;
+  }
+  if (!gridState[row][col].right) {
+    state = nodeClicked(state, {r: row, c: col})
+    return nodeClicked(state, {r: row, c: col+1})
+  }
+  if (!gridState[row][col].down) {
+    state = nodeClicked(state, {r: row, c: col})
+    return nodeClicked(state, {r: row+1, c: col})
+  }
+  if (!gridState[row + 1][col].right) {
+    state = nodeClicked(state, {r: row+1, c: col})
+    return nodeClicked(state, {r: row+1, c: col+1})
+  }
+  if (!gridState[row][col + 1].down) {
+    state = nodeClicked(state, {r: row, c: col+1})
+    return nodeClicked(state, {r: row+1, c: col+1})
   }
 }
 

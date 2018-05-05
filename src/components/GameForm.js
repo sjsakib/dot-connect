@@ -72,13 +72,13 @@ class GameForm extends Component {
       <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
           <div className="field">
-            <label class="label"> Players </label>
+            <label className="label"> Players </label>
             <div className="field has-addons has-addons-centered">
-              <p class="control">
+              <p className="control">
                 <input className="input" type="text" name="x" required defaultValue="X" placeholder="You" />
               </p>
-              <p class="control">
-                <a class="button is-static">VS</a>
+              <p className="control">
+                <a className="button is-static">VS</a>
               </p>
               <p className="control">
                 <input className="input" type="text" name="o" required defaultValue="O" placeholder="Opponent"/>
@@ -86,13 +86,13 @@ class GameForm extends Component {
             </div>
           </div>
           <div className="field">
-            <label class="label"> Size </label>
+            <label className="label"> Size </label>
             <div className="field has-addons has-addons-centered">
-              <p class="control">
+              <p className="control">
               <input className="input" type="number" max="10" min="2" required name="r" defaultValue="7" />
               </p>
-              <p class="control">
-                <a class="button is-static">X</a>
+              <p className="control">
+                <a className="button is-static">X</a>
               </p>
               <p className="control">
               <input className="input" type="number" max="10" min="2" required name="c" defaultValue="5" />
@@ -100,10 +100,10 @@ class GameForm extends Component {
             </div>
           </div>
           <div className="field">
-            <label class="label"> First move </label>
+            <label className="label"> First move </label>
             <div className="field is-grouped is-grouped-centered">
-              <div class="control">
-                <div class="select">
+              <div className="control">
+                <div className="select">
                   <select type="select" name="firstmove">
                     <option> You </option>
                     <option> Opponent </option>

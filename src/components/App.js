@@ -25,6 +25,13 @@ class App extends Component {
       })
     });
 
+    socket.on('UPDATE_GAME_LIST', (data) => {
+      this.props.dispatch({
+        type: 'UPDATE_GAME_LIST',
+        data: data,
+      });
+    });
+
     socket.on('reconnect', () => {
       console.log('reconnected...');
       if(this.props.status === 'started') {

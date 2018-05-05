@@ -1,6 +1,6 @@
 {
   "short_name": "DotConnect",
-  "name": "DotConnect, the childhood game online",
+  "name": "DotConnect",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,7 +8,7 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

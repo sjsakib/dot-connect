@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 
@@ -7,9 +7,6 @@ const MiddleText = (props) => (
   <div>
     {props.element}
     <br/>
-    <button className="button is-primary back">
-        <Link to="/"> Go Back </Link>
-    </button>
   </div>
 )
 

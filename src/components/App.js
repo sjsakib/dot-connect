@@ -25,11 +25,24 @@ class App extends Component {
       })
     });
 
+    socket.on('UPDATE_GAME_LIST', (data) => {
+      this.props.dispatch({
+        type: 'UPDATE_GAME_LIST',
+        data: data,
+      });
+    });
+
     socket.on('reconnect', () => {
       console.log('reconnected...');
       if(this.props.status === 'started') {
         console.log('rejoining...');
-        socket.emit('REJOIN', this.props.gameId);
+        socket.emit('REJOIN', {
+          gameId: this.props.gameId,
+          gridNodes: this.props.gridNodes,
+          xIsNext: this.props.xIsNext,
+          score: this.props.score,
+          gameStatus: this.props.gameStatus,
+        });
       }
       this.props.dispatch({
         type: 'CONNECTION_CHANGED',

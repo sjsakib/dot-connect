@@ -48,7 +48,7 @@ class GameForm extends Component {
             owner: null
           }))
         ),
-      public: form.public.value === 'on',
+      public: form.public.checked,
     };
 
     this.props.socket.emit('NEW_GAME', gameData)
@@ -115,7 +115,7 @@ class GameForm extends Component {
             </div>
           </div>
           <label className="checkbox">
-            <input type="checkbox" name="public" checked />
+            <input type="checkbox" name="public" defaultChecked />
               Anyone can join
           </label>
           <div className="field is-grouped is-grouped-centered">

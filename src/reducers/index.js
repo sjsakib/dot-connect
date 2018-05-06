@@ -20,13 +20,12 @@ export default function(state=initialState, action) {
     case 'CONNECTION_CHANGED':
       return {...state, ...connection_changed(state, action)};
     case 'UPDATE_GAME_LIST':
-      return {...state, ...{
-        availableGames: {
-          ...action.data,
-          ...state.availableGames,
+      return {
+        ...state,
+        ...{
+          availableGames: action.data,
         }
-      }
-    };
+      };
     default:
       return state;
   }

@@ -10,8 +10,7 @@ app.get('/', function (req, res) {
   res.json(games);
 });
 
-io.on('connection', function(socket){
-
+function getPublicGames() {
   let publicGames = {};
   for (gameId in games) {
     if (games[gameId].public) {
@@ -22,7 +21,11 @@ io.on('connection', function(socket){
       };
     }
   }
-  socket.emit('UPDATE_GAME_LIST', publicGames);
+  return publicGames;
+}
+
+io.on('connection', function(socket){
+  socket.emit('UPDATE_GAME_LIST', getPublicGames());
 
   socket.on('NEW_GAME', function(data) {
     // leave all previous rooms
@@ -35,12 +38,7 @@ io.on('connection', function(socket){
     socket.join(data.gameId);
 
     if (data.public) {
-      socket.broadcast.emit('UPDATE_GAME_LIST', {
-        [data.gameId]: {
-          players: data.players,
-          size: data.size,
-        }
-      });
+      socket.broadcast.emit('UPDATE_GAME_LIST', getPublicGames());
     }
 
     socket.emit('CONNECTED');
@@ -48,9 +46,7 @@ io.on('connection', function(socket){
     socket.on('disconnect', function(){
       if(data.status === 'waiting_for_opponent') {
         data.public = false;
-        io.emit('UPDATE_GAME_LIST', {
-          [data.gameId]: undefined,
-        });
+        io.emit('UPDATE_GAME_LIST', getPublicGames());
       }
       socket.broadcast.to(data.gameId).emit('PEER_DISCONNECTED');
     });
@@ -69,9 +65,7 @@ io.on('connection', function(socket){
 
         socket.join(gameId);
         games[gameId].public = false;
-        io.emit('UPDATE_GAME_LIST', {
-          [games[gameId]]: undefined,
-        });
+        io.emit('UPDATE_GAME_LIST', getPublicGames());
 
         socket.broadcast.to(gameId).emit('SYNC', {
           ...games[gameId],

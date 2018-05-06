@@ -34,7 +34,7 @@ const Home = (props) => {
   if (gameList.length > 0) {
     gameTable = (
       <div>
-        <p class="subtitle has-text-grey"> Join a game</p>
+        <p className="subtitle has-text-grey"> Join a game</p>
         <table className="table is-centered game-table">
           <thead>
             <tr>

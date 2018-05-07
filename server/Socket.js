@@ -1,94 +1,101 @@
-module.exports = (server) => {
-    const io = require('socket.io')(server);
-    const Storage = require('./Storage');
+module.exports = server => {
+	const io = require('socket.io')(server);
+	const Storage = require('./Storage');
 
-    // A new User (CLIENT) is Connected
-    io.on('connection', (socket) => {
-    //At the beginning of a connection update the CLIENT with the Public Game List
-      socket.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
+	const getGames = () => Storage.getAllGames();
 
-      //When the CLIENT wants to start a new Game
-      socket.on('NEW_GAME', (data) => {
-        // leave all previous rooms
-        Object.keys(socket.rooms).forEach((room) => {
-          socket.leave(room);
-        });
+	// A new User (CLIENT) is Connected
+	io.on('connection', socket => {
+		//At the beginning of a connection update the CLIENT with the Public Game List
+		socket.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
 
-        Storage.games[data.gameId] = data;
+		//When the CLIENT wants to start a new Game
+		socket.on('NEW_GAME', data => {
+			leaveAllOtherRooms(socket);
 
-        //CLIENT is going to join the new ROOM
-        socket.join(data.gameId);
+			const newGame = Storage.createGame(data.gameId, data);
 
-        if (data.public) {
-            //Update all the connected users, except CLIENT, with this new game link
-          socket.broadcast.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
-        }
+			//CLIENT is going to join the new ROOM
+			socket.join(newGame.gameId);
 
-        //Notify the CLIENT about Game created and CONNECTED Status
-        socket.emit('CONNECTED');
+			if (newGame.public) {
+				//Update all the connected users, except CLIENT, with this new game link
+				socket.broadcast.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
+			}
 
-        socket.on('disconnect', () => {
-          if(data.status === 'waiting_for_opponent') {
-            data.public = false;
-            io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
-          }
+			//Notify the CLIENT about the Game creation and CONNECTED Status
+			socket.emit('CONNECTED');
 
-          //Notify the Room that the CLIENT is disconnected
-          socket.broadcast.to(data.gameId).emit('PEER_DISCONNECTED');
-        });
-      });
+			socket.on('disconnect', () => {
+				if (data.status === 'waiting_for_opponent') {
+					Storage.deleteGame(newGame.gameId);
+					io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
+				}
 
-      socket.on('JOIN_GAME', (gameId) => {
-        console.log('join game', gameId);
-        io.of('/').in(gameId).clients((error, inRoom) => {
-          if(error) throw error;
-          if(inRoom.length === 1) {
-            // leave all previous games
-            const rooms = Object.keys(socket.rooms);
-            rooms.forEach(function(room){
-              socket.leave(room);
-            });
+				//Notify the Room that the CLIENT is disconnected
+				socket.broadcast.to(newGame.gameId).emit('PEER_DISCONNECTED');
+			});
+		});
 
-            socket.join(gameId);
-            Storage.games[gameId].public = false;
-            io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
+		socket.on('JOIN_GAME', gameId => {
+			io
+				.of('/')
+				.in(gameId)
+				.clients((error, inRoom) => {
+					if (error) throw error;
+					if (inRoom.length === 1) {
+						// leave all previous games
+						leaveAllOtherRooms(socket);
 
-            socket.broadcast.to(gameId).emit('SYNC', {
-              ...Storage.games[gameId],
-              ...{ status: 'started' }
-            });
+						socket.join(gameId);
 
-            socket.broadcast.to(gameId).emit('PEER_CONNECTED');
-            socket.emit('PEER_CONNECTED');
+						Storage.toggleGameVisibility(gameId);
 
-            socket.on('disconnect', () => {
-              socket.broadcast.to(gameId).emit('PEER_DISCONNECTED');
-            });
-          }
-        });
-      });
+						//Update everyone about the new PublicGames List
+						io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
 
-      socket.on('REQUEST_GAME_INFO', (gameId) => {
-        if(!Storage.games[gameId]) return;
-        socket.emit('SYNC', {
-          ...Storage.games[gameId],
-          ...{
-            status: 'waiting_to_join',
-            isX: !Storage.games[gameId].isX,
-          }
-        });
-      });
+						socket.broadcast.to(gameId).emit('SYNC', {
+							...Storage.getGameById(gameId),
+							...{ status: 'started' }
+						});
 
-      socket.on('SYNC', (data) => {
-        Storage.games[data.gameId] = data;
-        socket.broadcast.to(data.gameId).emit('SYNC', data);
-      });
+						socket.broadcast.to(gameId).emit('PEER_CONNECTED');
+						socket.emit('PEER_CONNECTED');
 
-      socket.on('REJOIN', (data) => {
-        socket.join(data.gameId);
-        socket.broadcast.to(data.gameId).emit('SYNC', data);
-        socket.broadcast.to(data.gameId).emit('PEER_CONNECTED');
-      });
+						socket.on('disconnect', () => {
+							socket.broadcast.to(gameId).emit('PEER_DISCONNECTED');
+						});
+					}
+				});
+		});
 
-    });
-}
+		socket.on('REQUEST_GAME_INFO', gameId => {
+			const game = Storage.getGameById(gameId);
+			if (!game) return;
+			socket.emit('SYNC', {
+				...game,
+				...{
+					status: 'waiting_to_join',
+					isX: !game.isX
+				}
+			});
+		});
+
+		socket.on('SYNC', data => {
+			Storage.updateGameById(data.gameId, data);
+			socket.broadcast.to(data.gameId).emit('SYNC', data);
+		});
+
+		socket.on('REJOIN', data => {
+			socket.join(data.gameId);
+			socket.broadcast.to(data.gameId).emit('SYNC', data);
+			socket.broadcast.to(data.gameId).emit('PEER_CONNECTED');
+		});
+	});
+
+	const leaveAllOtherRooms = socket => {
+		Object.keys(socket.rooms).forEach(room => {
+			socket.leave(room);
+		});
+	};
+};

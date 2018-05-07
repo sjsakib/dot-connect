@@ -5,5 +5,5 @@ const Socket = require('./Socket')(server);
 server.listen(8080);
 
 app.get('/', function(req, res) {
-	res.json(Socket.getGames());
+    res.json(Socket.getGames());
 });

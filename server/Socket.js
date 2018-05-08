@@ -29,7 +29,7 @@ module.exports = server => {
             //Notify the CLIENT about the Game creation and CONNECTED Status
             socket.emit('CONNECTED');
 
-            socket.on('disconnect', () => {
+            socket.on('DISCONNECT', () => {
                 if (data.status === 'waiting_for_opponent') {
                     Storage.deleteGame(newGame.gameId);
                     io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
@@ -65,7 +65,7 @@ module.exports = server => {
                         socket.broadcast.to(gameId).emit('PEER_CONNECTED');
                         socket.emit('PEER_CONNECTED');
 
-                        socket.on('disconnect', () => {
+                        socket.on('DISCONNECT', () => {
                             socket.broadcast
                                 .to(gameId)
                                 .emit('PEER_DISCONNECTED');

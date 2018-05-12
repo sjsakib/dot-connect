@@ -65,9 +65,10 @@ class JoinForm extends Component {
 		if (this.props.status === 'waiting_for_response' || !this.props.status) {
 			return connecting;
 		}
-
+		let playerO = this.props.user.name;
+		playerO = playerO.startsWith('Guest') ? this.props.players.o : playerO;
+		
 		const playerX = this.props.players.x;
-		const playerO = this.props.players.o;
 
 		return (
 			<div>
@@ -137,7 +138,8 @@ class JoinForm extends Component {
 const mapStateToProps = state => ({
 	players: state.players,
 	size: state.size,
-	status: state.status
+	status: state.status,
+	user: state.user,
 });
 
 export default connect(mapStateToProps)(JoinForm);

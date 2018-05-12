@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import logo from '../img/logo.png';
 import Menu from './Menu';
+import FBLoginButton from './FBLoginButton';
 import PublicGameList from './PublicGameList';
 
 class Home extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return (
@@ -17,6 +14,11 @@ class Home extends Component {
                 <p className="subtitle has-text-grey">
                     Play your favorite childhood game online with friends
                 </p>
+                 <div className="subtitle has-text-grey">
+                    Hello, {this.props.user.name}
+                    <br/>
+                    <FBLoginButton />
+                </div>
 
                 <Menu
                     gameStatus={this.props.gameStatus}
@@ -31,7 +33,8 @@ class Home extends Component {
 const mapStateToProps = state => ({
     gameStatus: state.gameStatus,
     gameId: state.gameId,
-    availableGames: state.availableGames
+    availableGames: state.availableGames,
+    user: state.user,
 });
 
 export default connect(mapStateToProps)(Home);

@@ -69,6 +69,9 @@ class GameForm extends Component {
       return <Redirect to={path} />
     }
 
+    let xName = this.props.user.name;
+    xName = xName.startsWith('Guest') ? 'x' : xName;
+
     return (
       <div>
         <form onSubmit={this.handleSubmit.bind(this)}>
@@ -76,7 +79,7 @@ class GameForm extends Component {
             <label className="label"> Players </label>
             <div className="field has-addons has-addons-centered">
               <p className="control">
-                <input className="input" type="text" name="x" required defaultValue="X" placeholder="You" />
+                <input className="input" type="text" name="x" required defaultValue={xName} placeholder="You" />
               </p>
               <p className="control">
                 <a className="button is-static">VS</a>
@@ -129,5 +132,9 @@ class GameForm extends Component {
   }
 }
 
+const mapStateToProps = state => ({
+    user: state.user,
+});
 
-export default connect()(GameForm)
+
+export default connect(mapStateToProps)(GameForm)

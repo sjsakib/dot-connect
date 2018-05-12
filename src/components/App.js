@@ -7,6 +7,7 @@ import JoinForm from '../components/JoinForm';
 import Home from '../components/Home';
 import Rules from '../components/Rule';
 import ClientSocket from '../utilities/ClientSocket';
+import auth from '../utilities/auth';
 
 class App extends Component {
     constructor(props) {
@@ -14,6 +15,8 @@ class App extends Component {
 
         this.ClientSocket = new ClientSocket(props);
         this.ClientSocket.bindListeners();
+        auth.initFb(props.dispatch);
+        auth.loadUser(props.dispatch);
     }
 
     render() {

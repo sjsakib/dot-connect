@@ -28,6 +28,13 @@ export default function(state = initialState, action) {
 					availableGames: action.data
 				}
 			};
+		case 'UPDATE_USER':
+			return {
+				...state,
+				...{
+					user: action.data
+				}
+			}
 		default:
 			return state;
 	}

@@ -45,8 +45,12 @@ const toggleGameVisibility = id => {
 };
 
 const updateGameById = (id, data) => {
-    games[id] = data;
-    return games[id];
+    for (let i = 0; i < games.length; i++) {
+        if (games[i].gameId == id) {
+            games[i] = data;
+            return games[i];
+        }
+    }
 };
 
 module.exports = {

@@ -28,6 +28,7 @@ yarn-error.log*
 # sublime-text
 *.sublime-project
 *.sublime-workspace
+*.tern-project
 
 # code
 *.code-workspace

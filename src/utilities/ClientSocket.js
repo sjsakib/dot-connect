@@ -3,32 +3,17 @@ import { apiUrl } from '../config.js';
 import {
     updateGameState,
     updateGameList,
-    connectionUpdated
 } from '../actions/actionCreators';
 
 export default class ClientSocket {
-    constructor(props) {
+    constructor(props, user) {
         this.socket = io(apiUrl);
         this.props = props;
+        this.user = user;
     }
 
     bindListeners() {
         const { dispatch } = this.props;
-
-        this.socket.on('CONNECTED', () =>
-            dispatch(connectionUpdated(true, true))
-        );
-        this.socket.on('DISCONNECT', () =>
-            dispatch(connectionUpdated(true, false))
-        );
-
-        this.socket.on('PEER_CONNECTED', () =>
-            dispatch(connectionUpdated(false, true))
-        );
-
-        this.socket.on('PEER_DISCONNECTED', () =>
-            dispatch(connectionUpdated(false, false))
-        );
 
         this.socket.on('SYNC', data => dispatch(updateGameState(data)));
 
@@ -36,19 +21,17 @@ export default class ClientSocket {
             dispatch(updateGameList(data))
         );
 
-        this.socket.on('RECONNECT', () => {
-            if (this.props.status === 'started') {
-                console.log('rejoining...');
-                this.socket.emit('REJOIN', {
-                    gameId: this.props.gameId,
-                    gridNodes: this.props.gridNodes,
-                    xIsNext: this.props.xIsNext,
-                    score: this.props.score,
-                    gameStatus: this.props.gameStatus
-                });
-            }
+        this.socket.on('reconnect', () => {
+            console.log(this.props);
+            this.socket.emit('REQUEST_GAME_INFO', {
+                gameId: this.props.gameId,
+                userID: this.user.id,
+            });
+            this.socket.emit('REJOIN', {
+                gameId: this.props.gameId,
+                userId: this.user.id,
+            });
 
-            dispatch(connectionUpdated(true, true));
         });
     }
 

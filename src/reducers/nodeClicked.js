@@ -40,7 +40,7 @@ function nodeClicked(state, clickedNode) {
   const lastClicked = state.lastClicked;
   if (!lastClicked ||
     state.isX !== state.xIsNext ||
-    !(state.connected.x && state.connected.o) ||
+    !(state.user.id === state.users.x || state.user.id === state.users.o) ||
     (clickedNode.r === lastClicked.r &&
       clickedNode.c === lastClicked.c)
   ) {
@@ -116,6 +116,7 @@ function nodeClicked(state, clickedNode) {
       gameStatus: gameStatus,
       gridNodes: gridState,
       score: score,
+      step: state.step+1,
     }
   };
 

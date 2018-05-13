@@ -17,6 +17,7 @@ class Home extends Component {
                  <div className="subtitle has-text-grey">
                     Hello, {this.props.user.name}
                     <br/>
+                    <br/>
                     <FBLoginButton />
                 </div>
 

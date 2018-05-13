@@ -2,10 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from './Grid';
 import GameInfo from './Footer';
-import { ShareLink, MiddleText } from './utilities'
-import { siteUrl } from '../config.js'
+import { ShareLink } from './utilities';
+import { siteUrl } from '../config.js';
 
 class Game extends Component {
+	constructor(props) {
+		super(props);
+
+		this.props.socket.emit('JOIN_GAME', {
+			gameId: props.match.params.gameId,
+			userId: props.user.id
+		})
+		this.props.socket.emit('REQUEST_GAME_INFO', {
+			gameId: props.match.params.gameId,
+			userId: props.user.id,
+		});
+		this.props.dispatch({
+			type: 'UPDATE_STATE',
+			data: {
+				status: 'waiting_for_response',
+			}
+		});
+	}
 	sendState(state) {
 		this.props.socket.emit('SYNC', {
 			gameId: state.gameId,
@@ -25,14 +43,17 @@ class Game extends Component {
 	}
 
 	render() {
-		if( this.props.status === 'waiting_for_opponent' ) {
+		if( this.props.status === 'waiting_for_opponent' && this.props.users.x === this.props.user.id) {
 			const path = siteUrl + `/game/${this.props.gameId}/join`
 			return <ShareLink value={path}/>
+		} else if ( this.props.status === 'not_started') {
+			return <div>Loading...</div>;
+		} else if ( this.props.status === 'waiting_for_response' ) {
+			return <div>Connecting... </div>;
+		} else if( this.props.status === 'not_found' ) {
+			return <div>Game does not exists or expired</div>;
 		}
 
-		if( !this.props.size ) {
-			return <MiddleText element="Game does not exists or expired" />;
-		}
 		return (
 			<div>
 				<div className="container" style={{ width: (this.props.size.c-1) * 50 }}>

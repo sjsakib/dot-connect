@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { MiddleText } from './utilities';
 
 class JoinForm extends Component {
 	constructor(props) {
@@ -12,7 +11,10 @@ class JoinForm extends Component {
 
 		const gameId = this.props.match.params.gameId;
 
-		this.props.socket.emit('REQUEST_GAME_INFO', gameId);
+		this.props.socket.emit('REQUEST_GAME_INFO', {
+			gameId,
+			id: this.props.user.id
+		});
 		this.props.dispatch({
 			type: 'UPDATE_STATE',
 			data: {
@@ -27,14 +29,13 @@ class JoinForm extends Component {
 		const form = e.target;
 
 		const gameId = this.props.match.params.gameId;
-		this.props.socket.emit('JOIN_GAME', gameId);
+
 		const data = {
 			gameId,
 			players: {
 				x: this.props.players.x,
 				o: form.o.value.trim()
-			},
-			status: 'started'
+			}
 		};
 
 		this.props.socket.emit('SYNC', data);
@@ -55,15 +56,18 @@ class JoinForm extends Component {
 	}
 
 	render() {
+		console.log(this.props);
 		if (this.state.redirect) {
 			const path = `/game/${this.state.gameId}/play`;
 			return <Redirect to={path} />;
 		}
 
-		const connecting = <MiddleText element="Connecting..." />;
+		if (this.props.status === 'waiting_for_response' || this.props.status === 'not_started') {
+			return <div>Connecting...</div>;
+		}
 
-		if (this.props.status === 'waiting_for_response' || !this.props.status) {
-			return connecting;
+		if (this.props.status === 'not_found') {
+			return <div>Game not found</div>;
 		}
 		let playerO = this.props.user.name;
 		playerO = playerO.startsWith('Guest') ? this.props.players.o : playerO;

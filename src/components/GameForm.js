@@ -25,8 +25,9 @@ class GameForm extends Component {
       c: Number(form.c.value),
     }
     const gameData = {
-      gameId: Math.floor(Math.random() * 100000),
+      gameId: '' + Math.floor(Math.random() * 100000),
       size: size,
+      step: 0,
       lastClicked: null,
       xIsNext: xIsNext,
       isX: true,
@@ -35,6 +36,14 @@ class GameForm extends Component {
         o: 0,
       },
       players: players,
+      users: {
+        x: this.props.user.id,
+        o: null,
+      },
+      connected: {
+        x: true,
+        o: false,
+      },
       gameStatus: `To move: ${xIsNext ? players.x : players.o}`,
       status: 'waiting_for_opponent',
       gridNodes: Array(size.r)

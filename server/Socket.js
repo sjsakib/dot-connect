@@ -11,12 +11,12 @@ module.exports = server => {
 
         //When the CLIENT wants to start a new Game
         socket.on('NEW_GAME', data => {
-            leaveAllOtherRooms(socket);
+            // leaveAllOtherRooms(socket);
 
             const newGame = Storage.createGame(data.gameId, data);
 
-            //CLIENT is going to join the new ROOM
-            socket.join(newGame.gameId);
+            // CLIENT is going to join the new ROOM
+            // socket.join(newGame.gameId);
 
             if (newGame.public) {
                 //Update all the connected users, except CLIENT, with this new game link
@@ -26,62 +26,76 @@ module.exports = server => {
                 );
             }
 
-            //Notify the CLIENT about the Game creation and CONNECTED Status
-            socket.emit('CONNECTED');
-
             socket.on('disconnect', () => {
-                if (data.status === 'waiting_for_opponent') {
+                const game = Storage.getGameById(data.gameId);
+                if (!game) return;
+                if (game.status === 'waiting_for_opponent') {
                     Storage.deleteGame(newGame.gameId);
                     io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
                 }
-
-                //Notify the Room that the CLIENT is disconnected
-                socket.broadcast.to(newGame.gameId).emit('PEER_DISCONNECTED');
             });
         });
 
-        socket.on('JOIN_GAME', gameId => {
-            io
-                .of('/')
-                .in(gameId)
-                .clients((error, inRoom) => {
-                    if (error) throw error;
-                    if (inRoom.length === 1) {
-                        // leave all previous games
-                        leaveAllOtherRooms(socket);
+        socket.on('JOIN_GAME', data => {
+            // leave all previous games
+            leaveAllOtherRooms(socket);
 
-                        socket.join(gameId);
+            socket.join(data.gameId);
+            console.log(data.userId + ' joined... ' + data.gameId)
 
-                        Storage.toggleGameVisibility(gameId);
+            const game = Storage.getGameById(data.gameId);
+            if ( !game ) return;
+            if ( game.status === 'waiting_for_opponent' && game.users.x != data.userId) {
+                Storage.toggleGameVisibility(data.gameId);
 
-                        //Update everyone about the new PublicGames List
-                        io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
+                //Update everyone about the new PublicGames List
+                io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
 
-                        socket.broadcast.to(gameId).emit('SYNC', {
-                            ...Storage.getGameById(gameId),
-                            ...{ status: 'started' }
-                        });
+                game.status = 'started';
+                game.users.o = data.userId;
+            }
 
-                        socket.broadcast.to(gameId).emit('PEER_CONNECTED');
-                        socket.emit('PEER_CONNECTED');
+            const isX = game.users.x === data.userId;
+            const isO = game.users.o === data.userId;
 
-                        socket.on('disconnect', () => {
-                            socket.broadcast
-                                .to(gameId)
-                                .emit('PEER_DISCONNECTED');
-                        });
-                    }
-                });
+            if ( isX ) {
+                game.connected.x = true;
+            } else if ( isO ) {
+                game.connected.o = true;
+            }
+            Storage.updateGameById(data.gameId, game);
+
+            socket.to(game.gameId).emit('SYNC', {
+                status: game.status,
+                users: game.users,
+                connected: game.connected,
+            });
+
+            socket.on('disconnect', () => {
+                const game = Storage.getGameById(data.gameId);
+                if (!game) return;
+                if ( isX ) {
+                    game.connected.x = false;
+                } else if ( isO ) {
+                    game.connected.o = false;
+                }
+                Storage.updateGameById(data.gameId, game);
+                socket.broadcast.to(data.gameId).emit('SYNC', game);
+            });
         });
 
-        socket.on('REQUEST_GAME_INFO', gameId => {
-            const game = Storage.getGameById(gameId);
-            if (!game) return;
+        socket.on('REQUEST_GAME_INFO', data => {
+            const game = Storage.getGameById(data.gameId);
+            if (!game) {
+                socket.emit('SYNC', {
+                    status: 'not_found',
+                });
+                return;
+            }
             socket.emit('SYNC', {
                 ...game,
                 ...{
-                    status: 'waiting_to_join',
-                    isX: !game.isX
+                    isX: game.users.x === data.userId,
                 }
             });
         });
@@ -93,8 +107,18 @@ module.exports = server => {
 
         socket.on('REJOIN', data => {
             socket.join(data.gameId);
-            socket.broadcast.to(data.gameId).emit('SYNC', data);
-            socket.broadcast.to(data.gameId).emit('PEER_CONNECTED');
+            const game = Storage.getGameById(data.gameId);
+            if ( !game ) return;
+            const isX = game.users.x === data.userId;
+            const isO = game.users.o === data.userId;
+            if ( isX ) {
+                game.connected.x = true;
+            } else if ( isO ) {
+                game.connected.o = true;
+            }
+            Storate.updateGameById(data.gameId, game);
+
+            socket.emit('SYNC', game);
         });
     });
 

@@ -13,10 +13,11 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.ClientSocket = new ClientSocket(props);
-        this.ClientSocket.bindListeners();
         auth.initFb(props.dispatch);
-        auth.loadUser(props.dispatch);
+        const user = auth.loadUser(props.dispatch);
+
+        this.ClientSocket = new ClientSocket(this.props, user);
+        this.ClientSocket.bindListeners();
     }
 
     render() {
@@ -28,7 +29,7 @@ class App extends Component {
                     <Route
                         exact
                         path="/game/:gameId/play"
-                        render={() => <GameContainer socket={socket} />}
+                        render={props => <GameContainer socket={socket} {...props} />}
                     />
                     <Route
                         exact

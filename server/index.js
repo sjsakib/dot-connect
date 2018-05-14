@@ -40,7 +40,6 @@ app.get('/game-list/:userId', function(req, res) {
 		name: game.name,
 		size: game.size,
 	}))
-	console.log(current);
 	const finished = allGames.filter(game => (
 		game.status === 'finished'
 	))

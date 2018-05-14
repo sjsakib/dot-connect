@@ -24,6 +24,7 @@ class Home extends Component {
                 <Menu
                     gameStatus={this.props.gameStatus}
                     gameId={this.props.gameId}
+                    userId={this.props.user.id}
                 />
                 <PublicGameList games={this.props.availableGames} />
             </div>

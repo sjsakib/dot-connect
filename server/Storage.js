@@ -6,9 +6,21 @@ const getPublicGames = () => {
     return games.filter(game => game.public).map(game => ({
         gameId: game.gameId,
         players: game.players,
-        size: game.size
+        size: game.size,
+        status: game.status,
     }));
 };
+
+const getGameList = userId => {
+    return games.filter(game =>
+        game.users.x === userId || game.users.o === userId
+    ).map(game => ({
+        gameId: game.gameId,
+        name: game.players.x + ' vs ' + game.players.o,
+        size: game.size.r + 'x' + game.size.c,
+        status: game.status,
+    }))
+}
 
 const createGame = (id, data) => {
     games.push(data);
@@ -63,5 +75,6 @@ module.exports = {
     createGame,
     deleteGame,
     toggleGameVisibility,
-    updateGameById
+    updateGameById,
+    getGameList,
 };

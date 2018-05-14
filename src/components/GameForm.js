@@ -79,7 +79,7 @@ class GameForm extends Component {
     }
 
     let xName = this.props.user.name;
-    xName = xName.startsWith('Guest') ? 'x' : xName;
+    xName = xName.startsWith('Guest') ? 'X' : xName;
 
     return (
       <div>

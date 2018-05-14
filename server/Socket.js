@@ -30,7 +30,7 @@ module.exports = server => {
                 const game = Storage.getGameById(data.gameId);
                 if (!game) return;
                 if (game.status === 'waiting_for_opponent') {
-                    Storage.deleteGame(newGame.gameId);
+                    Storage.toggleGameVisibility(newGame.gameId);
                     io.emit('UPDATE_GAME_LIST', Storage.getPublicGames());
                 }
             });
@@ -63,7 +63,11 @@ module.exports = server => {
             } else if ( isO ) {
                 game.connected.o = true;
             }
-            Storage.updateGameById(data.gameId, game);
+            Storage.updateGameById(data.gameId, {
+                status: game.status,
+                users: game.users,
+                connected: game.connected,
+            });
 
             socket.to(game.gameId).emit('SYNC', {
                 status: game.status,
@@ -80,7 +84,9 @@ module.exports = server => {
                     game.connected.o = false;
                 }
                 Storage.updateGameById(data.gameId, game);
-                socket.broadcast.to(data.gameId).emit('SYNC', game);
+                socket.broadcast.to(data.gameId).emit('SYNC', {
+                    connected: game.connected
+                });
             });
         });
 
@@ -118,7 +124,9 @@ module.exports = server => {
             }
             Storate.updateGameById(data.gameId, game);
 
-            socket.emit('SYNC', game);
+            socket.emit('SYNC', {
+                connected: game.connected
+            });
         });
     });
 

@@ -6,6 +6,7 @@ import GameForm from '../components/GameForm';
 import JoinForm from '../components/JoinForm';
 import Home from '../components/Home';
 import Rules from '../components/Rule';
+import GameList from '../components/GameList';
 import ClientSocket from '../utilities/ClientSocket';
 import auth from '../utilities/auth';
 
@@ -45,6 +46,7 @@ class App extends Component {
                             <JoinForm socket={socket} {...props} />
                         )}
                     />
+                    <Route exact path="/user/:userId/games" component={GameList}/>
                     <Route exact path="/rules" component={Rules} />
                 </div>
             </BrowserRouter>

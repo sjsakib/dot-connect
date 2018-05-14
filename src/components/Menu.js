@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Menu = props => {
-    const { gameStatus, gameId } = props;
+    const { gameStatus, gameId, userId } = props;
     return (
         <div className="box">
             <ul className="menu-list">
@@ -13,6 +13,9 @@ const Menu = props => {
                 )}
                 <li>
                     <Link to="/game/start">Start a new game</Link>
+                </li>
+                <li>
+                    <Link to={`/user/${userId}/games`}>My games</Link>
                 </li>
                 <li>
                     <Link to="/rules">Rules</Link>

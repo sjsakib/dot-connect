@@ -60,6 +60,13 @@ class GameForm extends Component {
       public: form.public.checked,
     };
 
+    if(this.props.offline) {
+      gameData.status = 'started';
+      gameData.connected.o = true;
+      gameData.offline = true;
+      gameData.public = false;
+    }
+
     this.props.socket.emit('NEW_GAME', gameData)
     this.props.dispatch({
       type: 'UPDATE_STATE',
@@ -80,6 +87,7 @@ class GameForm extends Component {
 
     let xName = this.props.user.name;
     xName = xName.startsWith('Guest') ? 'X' : xName;
+    const oName = this.props.offline ? 'Computer': 'O';
 
     return (
       <div>
@@ -94,7 +102,7 @@ class GameForm extends Component {
                 <a className="button is-static">VS</a>
               </p>
               <p className="control">
-                <input className="input" type="text" name="o" required defaultValue="O" placeholder="Opponent"/>
+                <input className="input" type="text" name="o" required defaultValue={oName} placeholder="Opponent"/>
               </p>
             </div>
           </div>

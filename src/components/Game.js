@@ -9,6 +9,8 @@ class Game extends Component {
 	constructor(props) {
 		super(props);
 
+		if ( this.props.offline ) return;
+
 		this.props.socket.emit('JOIN_GAME', {
 			gameId: props.match.params.gameId,
 			userId: props.user.id
@@ -24,6 +26,25 @@ class Game extends Component {
 			}
 		});
 	}
+
+	componentDidMount() {
+		this.answer();
+	}
+	componentDidUpdate() {
+		this.answer();
+	}
+
+	answer() {
+		if ( !this.props.xIsNext && this.props.offline  ) {
+			setTimeout(() => {
+				this.props.dispatch({
+					type: 'ANSWER',
+					after: this.sendState.bind(this),
+				});
+			}, 1000);
+		}
+	}
+
 	sendState(state) {
 		this.props.socket.emit('SYNC', {
 			gameId: state.gameId,
@@ -31,6 +52,7 @@ class Game extends Component {
 			xIsNext: state.xIsNext,
 			gameStatus: state.gameStatus,
 			score: state.score,
+			status: state.status,
 		});
 	}
 

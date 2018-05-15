@@ -41,6 +41,13 @@ class App extends Component {
                     />
                     <Route
                         exact
+                        path="/game/start/offline"
+                        render={props => (
+                            <GameForm socket={socket} {...props} offline={true} />
+                        )}
+                    />
+                    <Route
+                        exact
                         path="/game/:gameId/join"
                         render={props => (
                             <JoinForm socket={socket} {...props} />

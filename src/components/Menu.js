@@ -15,6 +15,9 @@ const Menu = props => {
                     <Link to="/game/start">Start a new game</Link>
                 </li>
                 <li>
+                    <Link to="/game/start/offline">Play offline</Link>
+                </li>
+                <li>
                     <Link to={`/user/${userId}/games`}>My games</Link>
                 </li>
                 <li>

@@ -1,5 +1,6 @@
 import nodeClicked from './nodeClicked';
 import resetGame from './resetGame';
+import answer from './answer';
 
 const initialState = {
 	gameStatus: 'Game not started',
@@ -9,7 +10,7 @@ const initialState = {
 export default function(state = initialState, action) {
 	switch (action.type) {
 		case 'NODE_CLICKED':
-			const step = state.step;
+			let step = state.step;
 			state = { ...state, ...nodeClicked(state, action.node) };
 			if (step !== state.step) action.after(state);
 			return state;
@@ -34,6 +35,11 @@ export default function(state = initialState, action) {
 					user: action.data
 				}
 			}
+		case 'ANSWER':
+			step = state.step;
+			state = answer(state);
+			if (step !== state.step) action.after(state);
+			return state;
 		default:
 			return state;
 	}

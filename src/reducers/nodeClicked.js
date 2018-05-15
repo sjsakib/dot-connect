@@ -35,7 +35,7 @@ function isValidMove(gridState, row, col, size) {
 
 
 function nodeClicked(state, clickedNode) {
-  console.log(`clicked ${clickedNode.r}, ${clickedNode.c}`);
+  // console.log(`clicked ${clickedNode.r}, ${clickedNode.c}`);
 
   const lastClicked = state.lastClicked;
   if (!lastClicked ||
@@ -52,7 +52,9 @@ function nodeClicked(state, clickedNode) {
     };
   }
 
-  let gridState = state.gridNodes.slice();
+  let gridState = [];
+  state.gridNodes.forEach(row => gridState.push(row.map(node => ({...node}))));
+
   let gotNodes = 0; // How many nodes did they get?
   let gotNode;
   let xIsNext = state.xIsNext;
@@ -96,8 +98,10 @@ function nodeClicked(state, clickedNode) {
     o: (xIsNext ? score.o : score.o + gotNodes),
   };
   let gameStatus;
+  let status;
 
   if ( score.x + score.o === (size.r-1)*(size.c-1)) {
+    status = 'finished';
     if ( score.x === score.o ) {
       gameStatus = 'Draw!';
     } else {
@@ -105,6 +109,7 @@ function nodeClicked(state, clickedNode) {
     }
   } else {
     gameStatus = `To move: ${xIsNext ? players.x : players.o}`;
+    status = 'started';
   }
 
 
@@ -117,6 +122,7 @@ function nodeClicked(state, clickedNode) {
       gridNodes: gridState,
       score: score,
       step: state.step+1,
+      status: status,
     }
   };
 

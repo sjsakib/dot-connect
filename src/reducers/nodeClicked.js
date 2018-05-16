@@ -130,6 +130,8 @@ function nodeClicked(state, clickedNode) {
     }
   };
 
+  return newState;
+
   if (!gotNodes) return newState;
 
   newState = getNeighbour(newState, row, col);

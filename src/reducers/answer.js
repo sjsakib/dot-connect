@@ -19,7 +19,7 @@ const answer = state => {
 				if (newPoints > points && newState.step > step) {
 					finalState = newState;
 					points = newPoints;
-				} else if ( newPoints === points && Math.random() > .99 && newState.step > step) {
+				} else if ( newPoints === points && Math.random() > .95 && newState.step > step) {
 					finalState = newState;
 					points = newPoints;
 				}
@@ -31,7 +31,7 @@ const answer = state => {
 				if (newPoints > points && newState.step > step) {
 					finalState = newState;
 					points = newPoints;
-				} else if ( newPoints === points && Math.random() > .99 && newState.step > step) {
+				} else if ( newPoints === points && Math.random() > .95 && newState.step > step) {
 					finalState = newState;
 					points = newPoints;
 				}

@@ -78,6 +78,10 @@ p.subtitle {
 	left: -2px;
 }
 
+.edge.highlight {
+	background-color: #3273dc;
+}
+
 .owner {
 	z-index: 3;
 	font-size: 2em;

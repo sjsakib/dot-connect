@@ -123,6 +123,7 @@ function nodeClicked(state, clickedNode) {
       score: score,
       step: state.step+1,
       status: status,
+      lastMoved: action.line ? action : null,
     }
   };
 

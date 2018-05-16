@@ -7,6 +7,13 @@ class Grid extends Component {
 		return lastClicked && lastClicked.r === i && lastClicked.c === j;
 	}
 
+	highlight(i, j) {
+		const lastMoved = this.props.lastMoved;
+		if (!lastMoved || !(lastMoved.node.r === i && lastMoved.node.c === j)) return 'none';
+		if (lastMoved.line === 'horizontal') return 'right';
+		if (lastMoved.line === 'vertical') return 'down';
+	}
+
 	render() {
 		const props = this.props;
 		const grid = props.gridNodes.map((rowState, i) =>
@@ -19,6 +26,7 @@ class Grid extends Component {
 					right={nodeState.right}
 					owner={nodeState.owner}
 					selected={this.isSelected(i, j)}
+					highlight={this.highlight(i, j)}
 					nodeClicked={props.nodeClicked}
 				/>
 			))

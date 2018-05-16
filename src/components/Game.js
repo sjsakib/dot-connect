@@ -53,6 +53,7 @@ class Game extends Component {
 			gameStatus: state.gameStatus,
 			score: state.score,
 			status: state.status,
+			lastMoved: state.lastMoved,
 		});
 	}
 
@@ -85,6 +86,7 @@ class Game extends Component {
 						xIsNext={this.props.xIsNext}
 						nodeClicked={this.nodeClicked.bind(this)}
 						lastClicked={this.props.lastClicked}
+						lastMoved={this.props.lastMoved}
 					/>
 				</div>
 				<GameInfo />

@@ -17,6 +17,12 @@ class Node extends Component {
 	getSelectedClass() {
 		return this.props.selected ? 'selected' : '';
 	}
+	getEdgeClass(edge) {
+		let ret = 'edge ';
+		if (this.props[edge]) ret += edge + ' ';
+		if (this.props.highlight === edge) ret += 'highlight';
+		return ret;
+	}
 
 	render() {
 		const props = this.props;
@@ -25,8 +31,8 @@ class Node extends Component {
 			<div className="node">
 				<div className={`core ${this.getSelectedClass()}`} />
 				<div className="outer-core" onClick={this.handleClick} />
-				<div className={`edge ${props.right ? 'right' : ''}`} />
-				<div className={`edge ${props.down ? 'down' : ''}`} />
+				<div className={this.getEdgeClass('right')} />
+				<div className={this.getEdgeClass('down')} />
 				<div className="owner">{props.owner}</div>
 			</div>
 		);

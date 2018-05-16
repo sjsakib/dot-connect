@@ -15,9 +15,9 @@ class App extends Component {
         super(props);
 
         auth.initFb(props.dispatch);
-        const user = auth.loadUser(props.dispatch);
+        auth.loadUser(props.dispatch);
 
-        this.ClientSocket = new ClientSocket(this.props, user);
+        this.ClientSocket = new ClientSocket(this);
         this.ClientSocket.bindListeners();
     }
 

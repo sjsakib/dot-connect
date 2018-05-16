@@ -6,14 +6,13 @@ import {
 } from '../actions/actionCreators';
 
 export default class ClientSocket {
-    constructor(props, user) {
+    constructor(app) {
         this.socket = io(apiUrl);
-        this.props = props;
-        this.user = user;
+        this.app = app;
     }
 
     bindListeners() {
-        const { dispatch } = this.props;
+        const { dispatch } = this.app.props;
 
         this.socket.on('SYNC', data => dispatch(updateGameState(data)));
 
@@ -22,14 +21,14 @@ export default class ClientSocket {
         );
 
         this.socket.on('reconnect', () => {
-            console.log(this.props);
+            if (this.app.offline) return;
             this.socket.emit('REQUEST_GAME_INFO', {
-                gameId: this.props.gameId,
-                userID: this.user.id,
+                gameId: this.app.props.gameId,
+                userID: this.app.user.id,
             });
             this.socket.emit('REJOIN', {
-                gameId: this.props.gameId,
-                userId: this.user.id,
+                gameId: this.app.props.gameId,
+                userId: this.app.user.id,
             });
 
         });

@@ -99,9 +99,11 @@ function nodeClicked(state, clickedNode) {
   };
   let gameStatus;
   let status;
+  let offline = state.offline;
 
   if ( score.x + score.o === (size.r-1)*(size.c-1)) {
     status = 'finished';
+    offline = false;
     if ( score.x === score.o ) {
       gameStatus = 'Draw!';
     } else {
@@ -124,6 +126,7 @@ function nodeClicked(state, clickedNode) {
       step: state.step+1,
       status: status,
       lastMoved: action.line ? action : null,
+      offline: offline,
     }
   };
 

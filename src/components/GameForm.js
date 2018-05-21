@@ -25,7 +25,7 @@ class GameForm extends Component {
       c: Number(form.c.value),
     }
     const gameData = {
-      gameId: '' + Math.floor(Math.random() * 100000),
+      gameId: Math.random().toString(36).substr(2,5),
       size: size,
       step: 0,
       lastClicked: null,

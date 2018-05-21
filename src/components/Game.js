@@ -11,14 +11,16 @@ class Game extends Component {
 
 		if ( this.props.offline ) return;
 
-		this.props.socket.emit('JOIN_GAME', {
-			gameId: props.match.params.gameId,
-			userId: props.user.id
-		})
 		this.props.socket.emit('REQUEST_GAME_INFO', {
 			gameId: props.match.params.gameId,
 			userId: props.user.id,
 		});
+
+		this.props.socket.emit('JOIN_GAME', {
+			gameId: props.match.params.gameId,
+			userId: props.user.id
+		});
+		
 		this.props.dispatch({
 			type: 'UPDATE_STATE',
 			data: {
@@ -32,6 +34,20 @@ class Game extends Component {
 	}
 	componentDidUpdate() {
 		this.answer();
+		// REQUEST_GAME_INFO might have been replied before the game is saved in db
+		// should try again
+		if (this.props.status === 'not_found' && this.props.connected) {
+			this.props.socket.emit('REQUEST_GAME_INFO', {
+				gameId: this.props.match.params.gameId,
+				userId: this.props.user.id,
+			});
+			this.props.dispatch({
+				type: 'UPDATE_STATE',
+				data: {
+					status: 'waiting_for_response',
+				}
+			});
+		}
 	}
 
 	answer() {
@@ -71,10 +87,10 @@ class Game extends Component {
 			return <ShareLink value={path}/>
 		} else if ( this.props.status === 'not_started') {
 			return <div>Loading...</div>;
-		} else if ( this.props.status === 'waiting_for_response' ) {
-			return <div>Connecting... </div>;
 		} else if( this.props.status === 'not_found' ) {
 			return <div>Game does not exists or expired</div>;
+		} else if ( this.props.status === 'waiting_for_response' || !this.props.size ) {
+			return <div>Connecting... </div>;
 		}
 
 		return (

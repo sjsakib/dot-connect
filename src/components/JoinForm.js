@@ -56,7 +56,6 @@ class JoinForm extends Component {
 	}
 
 	render() {
-		console.log(this.props);
 		if (this.state.redirect) {
 			const path = `/game/${this.state.gameId}/play`;
 			return <Redirect to={path} />;

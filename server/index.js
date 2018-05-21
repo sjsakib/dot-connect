@@ -30,27 +30,28 @@ app.get('/', function(req, res) {
 });
 
 app.get('/game-list/:userId', function(req, res) {
-	const allGames = Storage.getGameList(req.params.userId);
-	const name = 'USER';
-	const current = allGames.filter(game => (
-		game.status !== 'finished'
-	))
-	.map(game => ({
-		gameId: game.gameId,
-		name: game.name,
-		size: game.size,
-	}))
-	const finished = allGames.filter(game => (
-		game.status === 'finished'
-	))
-	.map(game => ({
-		gameId: game.gameId,
-		name: game.name,
-		size: game.size,
-	}))
-	res.json({
-		name,
-		current,
-		finished,
+	Storage.getGameList(req.params.userId).then(allGames => {
+		const name = 'USER';
+		const current = allGames.filter(game => (
+			game.status !== 'finished'
+		))
+		.map(game => ({
+			gameId: game.gameId,
+			name: game.name,
+			size: game.size,
+		}))
+		const finished = allGames.filter(game => (
+			game.status === 'finished'
+		))
+		.map(game => ({
+			gameId: game.gameId,
+			name: game.name,
+			size: game.size,
+		}))
+		res.json({
+			name,
+			current,
+			finished,
+		});
 	});
 });

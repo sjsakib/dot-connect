@@ -15,6 +15,7 @@ export default class ClientSocket {
         const { dispatch } = this.app.props;
 
         this.socket.on('SYNC', data => {
+            console.log(data);
             dispatch(updateGameState(data))
         });
 

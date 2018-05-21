@@ -14,7 +14,9 @@ export default class ClientSocket {
     bindListeners() {
         const { dispatch } = this.app.props;
 
-        this.socket.on('SYNC', data => dispatch(updateGameState(data)));
+        this.socket.on('SYNC', data => {
+            dispatch(updateGameState(data))
+        });
 
         this.socket.on('UPDATE_GAME_LIST', data =>
             dispatch(updateGameList(data))
@@ -22,13 +24,14 @@ export default class ClientSocket {
 
         this.socket.on('reconnect', () => {
             if (this.app.offline) return;
+            console.log(this.app.props.user.id);
             this.socket.emit('REQUEST_GAME_INFO', {
                 gameId: this.app.props.gameId,
-                userID: this.app.user.id,
+                userId: this.app.props.user.id,
             });
             this.socket.emit('REJOIN', {
                 gameId: this.app.props.gameId,
-                userId: this.app.user.id,
+                userId: this.app.props.user.id,
             });
 
         });

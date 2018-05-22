@@ -25,6 +25,14 @@ const updateUser = params => {
     ).exec();
 };
 
+const getUserName = userId => {
+    return new Promise(resolve => {
+        User.findOne({ id: userId }, 'name', (err, user) => {
+            resolve(user.name);
+        });
+    });
+};
+
 const getGameList = userId => {
     return new Promise(resolve => {
         Game.find(
@@ -76,5 +84,6 @@ module.exports = {
     createGame,
     updateGameById,
     getGameList,
-    updateUser
+    updateUser,
+    getUserName,
 };

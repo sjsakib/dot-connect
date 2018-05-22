@@ -1,3 +1,5 @@
+import { apiUrl } from '../config';
+
 function initFb(dispatch) {
 	window.fbAsyncInit = function() {
 		window.FB.init({
@@ -40,6 +42,7 @@ function initFb(dispatch) {
 					data: user
 				});
 				window.localStorage.setItem('user', JSON.stringify(user));
+				updateUser(user);
 			});
 			return;
 		}
@@ -55,25 +58,36 @@ function initFb(dispatch) {
 			data: user
 		});
 		window.localStorage.setItem('user', JSON.stringify(user));
+		updateUser(user);
 	}
 }
 
 function loadUser(dispatch) {
 	let user = JSON.parse(window.localStorage.getItem('user'));
 	if (!user) {
-		const id = '' + Math.round(Math.random() * 1000000)
+		const id = '' + Math.round(Math.random() * 1000000);
 		user = {
 			id,
 			name: 'Guest' + id,
 			loggedIn: false
 		};
 		window.localStorage.setItem('user', JSON.stringify(user));
+		updateUser(user);
 	}
 	dispatch({
 		type: 'UPDATE_USER',
 		data: user
 	});
 	return user;
+}
+
+function updateUser(user) {
+	let url = apiUrl + '/update-user';
+	url += '/' + user.id;
+	url += '/' + user.name;
+	fetch(url, {
+        method: 'POST',
+    })
 }
 
 export default {

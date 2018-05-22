@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-	id: String,
+	id: { unique: true, type: String },
 	name: String,
-	points: Number
+	points: { type: Number, default: 0, index: true }
 });
 
 const GameSchema = mongoose.Schema({
-	gameId: {type: String, unique: true},
+	gameId: { type: String, unique: true },
 	size: { r: Number, c: Number },
 	step: Number,
 	xIsNext: Boolean,
@@ -23,7 +23,7 @@ const GameSchema = mongoose.Schema({
 				_id: false,
 				right: Boolean,
 				down: Boolean,
-				owner: String,
+				owner: String
 			}
 		]
 	],

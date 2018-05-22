@@ -26,7 +26,12 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', function(req, res) {
-    res.json(Storage.getAllGames());
+	res.json({ message: 'server running...' });
+});
+
+app.post('/update-user/:id/:name', function(req, res) {
+	Storage.updateUser(req.params);
+	res.sendStatus(200);
 });
 
 app.get('/game-list/:userId', function(req, res) {

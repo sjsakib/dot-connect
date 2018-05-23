@@ -28,7 +28,8 @@ const GameSchema = mongoose.Schema({
 		]
 	],
 	public: Boolean,
-	offline: Boolean
+	offline: Boolean,
+	pointsCounted: Boolean,
 });
 
 const User = mongoose.model('User', UserSchema);

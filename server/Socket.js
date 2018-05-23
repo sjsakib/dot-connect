@@ -31,7 +31,7 @@ module.exports = server => {
             leaveAllOtherRooms(socket);
 
             socket.join(data.gameId);
-            console.log(data.userId + ' joined... ' + data.gameId)
+            // console.log(data.userId + ' joined... ' + data.gameId)
 
             Storage.getGameById(data.gameId).then(game => {
                 if ( !game ) return;
@@ -58,7 +58,6 @@ module.exports = server => {
                     users: game.users,
                     connected: game.connected,
                 };
-                console.log(update);
                 Storage.updateGameById(data.gameId, update);
 
                 io.to(game.gameId).emit('SYNC', update);
@@ -80,7 +79,7 @@ module.exports = server => {
         });
 
         socket.on('REQUEST_GAME_INFO', data => {
-            console.log('request from', data.userId, 'for', data.gameId);
+            // console.log('request from', data.userId, 'for', data.gameId);
             Storage.getGameById(data.gameId).then( game => {
                 if (!game) {
                     socket.emit('SYNC', {
@@ -99,7 +98,6 @@ module.exports = server => {
 
         socket.on('SYNC', data => {
             Storage.updateGameById(data.gameId, data);
-            console.log(data);
             socket.broadcast.to(data.gameId).emit('SYNC', data);
         });
 

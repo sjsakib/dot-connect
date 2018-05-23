@@ -75,6 +75,17 @@ const getGameById = id => {
 const updateGameById = (id, data) => {
     return new Promise(resolve => {
         Game.findOneAndUpdate({ gameId: id }, data, () => resolve());
+        if (data.status === 'finished') updatePoints(data.gameId);
+    });
+};
+
+const updatePoints = gameId => {
+    Game.findOne({ gameId }, (err, game) => {
+        if (game.pointsCounted) return;
+        const points = game.score.x - game.score.o;
+        User.update({ id: game.users.x }, { $inc: { points: points } }).exec();
+        User.update( { id: game.users.o }, { $inc: { points: -1 * points } }).exec();
+        Game.update({ gameId }, { pointsCounted: false }).exec();
     });
 };
 
@@ -85,5 +96,5 @@ module.exports = {
     updateGameById,
     getGameList,
     updateUser,
-    getUserName,
+    getUserName
 };

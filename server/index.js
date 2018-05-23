@@ -39,6 +39,15 @@ app.post('/update-user/:id/:name', function(req, res) {
 	res.sendStatus(200);
 });
 
+app.get('/topchart', function(req, res) {
+	let friends;
+	if (req.query.friends) friends = req.query.friends.split(',');
+	else friends = null;
+	Storage.getTopChart(friends).then(users => {
+		res.json(users);
+	});
+});
+
 app.get('/game-list/:userId', function(req, res) {
 	Storage.getGameList(req.params.userId).then(allGames => {
 		const current = allGames

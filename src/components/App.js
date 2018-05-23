@@ -7,6 +7,7 @@ import JoinForm from '../components/JoinForm';
 import Home from '../components/Home';
 import Rules from '../components/Rule';
 import GameList from '../components/GameList';
+import TopChart from '../components/TopChart';
 import ClientSocket from '../utilities/ClientSocket';
 import auth from '../utilities/auth';
 
@@ -54,6 +55,7 @@ class App extends Component {
                         )}
                     />
                     <Route exact path="/user/:userId/games" component={GameList}/>
+                    <Route exact path="/topchart" component={TopChart} />
                     <Route exact path="/rules" component={Rules} />
                 </div>
             </BrowserRouter>

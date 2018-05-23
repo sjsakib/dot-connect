@@ -21,6 +21,9 @@ const Menu = props => {
                     <Link to={`/user/${userId}/games`}>My games</Link>
                 </li>
                 <li>
+                    <Link to="/topchart">Top players</Link>
+                </li>
+                <li>
                     <Link to="/rules">Rules</Link>
                 </li>
             </ul>

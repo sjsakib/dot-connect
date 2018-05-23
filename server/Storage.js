@@ -55,6 +55,22 @@ const getGameList = userId => {
     });
 };
 
+const getTopChart = users => {
+    let query;
+    if (users) query = { id: { $in: users } };
+    else query = {};
+    return new Promise(resolve => {
+        User.find(
+            query,
+            '-_id id name points',
+            { sort: { points: -1 } },
+            (err, users) => {
+                resolve(users);
+            }
+        );
+    });
+};
+
 const createGame = data => {
     const game = new Game(data);
     return new Promise(resolve => {
@@ -75,7 +91,8 @@ const getGameById = id => {
 const updateGameById = (id, data) => {
     return new Promise(resolve => {
         Game.findOneAndUpdate({ gameId: id }, data, () => resolve());
-        if (data.status && data.status === 'finished') updatePoints(data.gameId);
+        if (data.status && data.status === 'finished')
+            updatePoints(data.gameId);
     });
 };
 
@@ -84,7 +101,10 @@ const updatePoints = gameId => {
         if (!game || game.pointsCounted) return;
         const points = game.score.x - game.score.o;
         User.update({ id: game.users.x }, { $inc: { points: points } }).exec();
-        User.update( { id: game.users.o }, { $inc: { points: -1 * points } }).exec();
+        User.update(
+            { id: game.users.o },
+            { $inc: { points: -1 * points } }
+        ).exec();
         Game.update({ gameId }, { pointsCounted: false }).exec();
     });
 };
@@ -96,5 +116,6 @@ module.exports = {
     updateGameById,
     getGameList,
     updateUser,
-    getUserName
+    getUserName,
+    getTopChart
 };

@@ -10,7 +10,7 @@ function initFb(dispatch) {
 		});
 		window.FB.Event.subscribe('auth.statusChange', authChanged);
 		window.FB.Event.subscribe('authResponseChange', authChanged);
-		getFriendList();
+		window.FB.getLoginStatus(res => getFriendList());
 	};
 
 	(function(d, s, id) {

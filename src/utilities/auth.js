@@ -10,6 +10,7 @@ function initFb(dispatch) {
 		});
 		window.FB.Event.subscribe('auth.statusChange', authChanged);
 		window.FB.Event.subscribe('authResponseChange', authChanged);
+		getFriendList();
 	};
 
 	(function(d, s, id) {
@@ -86,8 +87,14 @@ function updateUser(user) {
 	url += '/' + user.id;
 	url += '/' + user.name;
 	fetch(url, {
-        method: 'POST',
-    })
+		method: 'POST'
+	});
+}
+
+function getFriendList() {
+	window.FB.api('/me', 'GET', { fields: 'friends.limit(1000){id,name}' }, res => {
+		console.log(res);
+	});
 }
 
 export default {

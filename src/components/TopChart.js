@@ -20,6 +20,7 @@ class TopChart extends Component {
 				this.setState({ status: 'failed' });
 				// throw err;
 			});
+			console.log(typeof window.FB);
 	}
 
 	render() {

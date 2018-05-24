@@ -26,7 +26,6 @@ function initFb(dispatch) {
 	})(document, 'script', 'facebook-jssdk');
 
 	function authChanged(data) {
-		console.log(data);
 		let user;
 		if (data.authResponse && data.status === 'connected') {
 			const userId = data.authResponse.userID;
@@ -60,6 +59,7 @@ function initFb(dispatch) {
 		});
 		window.localStorage.setItem('user', JSON.stringify(user));
 		updateUser(user);
+		getFriendList();
 	}
 }
 
@@ -93,7 +93,13 @@ function updateUser(user) {
 
 function getFriendList() {
 	window.FB.api('/me', 'GET', { fields: 'friends.limit(1000){id,name}' }, res => {
-		console.log(res);
+		if (res.error) {
+			window.localStorage.setItem('friends', 'null')
+		} else {
+			const friends = res.friends.data;
+			friends.push(res.id);
+			window.localStorage.setItem('friends', friends.join(','));
+		}
 	});
 }
 

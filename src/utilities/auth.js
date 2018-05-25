@@ -8,6 +8,9 @@ function initFb(dispatch) {
 			xfbml: true,
 			version: 'v3.0'
 		});
+
+		FB.AppEvents.logPageView();
+
 		window.FB.Event.subscribe('auth.statusChange', authChanged);
 		window.FB.Event.subscribe('authResponseChange', authChanged);
 		window.FB.getLoginStatus(res => getFriendList(dispatch));

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { HomeLink } from './utilities'
 import { apiUrl } from '../config';
 
 class GameList extends Component {
@@ -99,6 +100,7 @@ class GameList extends Component {
 				{!(currentGames || finishedGames) &&
 					<div>Nothing to show</div>
 				}
+				<HomeLink />
 			</div>
 		)
 	}

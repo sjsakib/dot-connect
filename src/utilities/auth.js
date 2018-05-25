@@ -9,7 +9,7 @@ function initFb(dispatch) {
 			version: 'v3.0'
 		});
 
-		FB.AppEvents.logPageView();
+		window.FB.AppEvents.logPageView();
 
 		window.FB.Event.subscribe('auth.statusChange', authChanged);
 		window.FB.Event.subscribe('authResponseChange', authChanged);

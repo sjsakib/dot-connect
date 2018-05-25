@@ -110,7 +110,7 @@ function nodeClicked(state, clickedNode) {
       gameStatus = `${score.x > score.o ? players.x : players.o} won by ${Math.abs(score.x - score.o)} point(s)`;
     }
   } else {
-    gameStatus = `To move: ${xIsNext ? players.x : players.o}`;
+    gameStatus = `${xIsNext ? players.x : players.o} to move`;
     status = 'started';
   }
 

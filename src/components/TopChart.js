@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getFriendList } from '../utilities/auth'
+import { HomeLink } from './utilities'
 import { apiUrl } from '../config';
 
 class TopChart extends Component {
@@ -89,6 +90,7 @@ class TopChart extends Component {
 					Top players
 				</p>
 				{topUsers}
+				<HomeLink />
 			</div>
 		)
 	}

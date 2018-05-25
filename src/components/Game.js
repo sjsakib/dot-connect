@@ -34,6 +34,10 @@ class Game extends Component {
 	}
 	componentDidUpdate() {
 		this.answer();
+
+		// change document title
+		document.title = this.props.gameStatus + ' | DotConnect'
+
 		// REQUEST_GAME_INFO might have been replied before the game is saved in db
 		// should try again
 		if (this.props.status === 'not_found' && this.props.connected) {

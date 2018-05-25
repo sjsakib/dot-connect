@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 
 class FBLoginButton extends Component {
 
+	componentDidMount() {
+		if (typeof window.FB !== 'undefined') {
+			window.FB.XFBML.parse();
+		}
+	}
+
 	render() {
 		return (
 			<div

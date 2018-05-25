@@ -9,7 +9,7 @@ import Rules from '../components/Rule';
 import GameList from '../components/GameList';
 import TopChart from '../components/TopChart';
 import ClientSocket from '../utilities/ClientSocket';
-import auth from '../utilities/auth';
+import * as auth from '../utilities/auth';
 
 class App extends Component {
     constructor(props) {

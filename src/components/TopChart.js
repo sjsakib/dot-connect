@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getFriendList } from '../utilities/auth'
 import { apiUrl } from '../config';
 
 class TopChart extends Component {
@@ -20,25 +22,22 @@ class TopChart extends Component {
 				this.setState({ status: 'failed' });
 				// throw err;
 			});
+		
+		// reload facebook friends
+		getFriendList(this.props.dispatch);
 	}
 
-	render() {
-		const { status, users } = this.state;
-		if ( status === 'loading' ) {
-			return <div> Loading... </div>;
-		} else if ( status === 'failed' ) {
-			return <div> Failed to load </div>;
-		}
-
-		let usersTable = users.map((user, i) => (
+	toUserTable(users) {
+		const userRows = users.map((user, i) => (
 			<tr key={i}>
-				<td> <Link to={`/user/${user.id}/games`}>{i}</Link> </td>
+				<td> <Link to={`/user/${user.id}/games`}>{i+1}</Link> </td>
 				<td> <Link to={`/user/${user.id}/games`}>{user.name}</Link> </td>
 				<td> <Link to={`/user/${user.id}/games`}>{user.points} </Link> </td>
 			</tr> 
 		));
-		if ( usersTable.length > 0 ) {
-			usersTable = (
+
+		if ( userRows.length > 0 ) {
+			return (
 				<table className="table is-centered game-table">
 					<thead>
 						<tr>
@@ -47,22 +46,54 @@ class TopChart extends Component {
 							<td>Points</td>
 						</tr>
 					</thead>
-					<tbody>{usersTable}</tbody>
+					<tbody>{userRows}</tbody>
 				</table>
 			);
+		}
+		
+		return null;
+	}
+
+	render() {
+		const { status, users } = this.state;
+		const friends = this.props.friends;
+
+		let topUsers, topFriends;
+		
+		if ( status === 'loading' ) {
+			topUsers =  <p> Loading... </p>;
+		} else if ( status === 'failed' ) {
+			topUsers = <p> Failed to load </p>;
 		} else {
-			usersTable = null;
+			topUsers = this.toUserTable(users);
+		}
+
+		if ( !friends ) {
+			topFriends =  <p> Loading... </p>;
+		} else if ( friends === 'failed' ) {
+			topFriends = <p> Failed to load </p>;
+		} else if ( friends === 'null' ) {
+			topFriends = <p> Log in with facebook to see top friends</p>
+		} else {
+			topFriends = this.toUserTable(friends);
 		}
 
 		return (
 			<div>
 				<p className="title has-text-grey">
+					Top friends
+				</p>
+				{topFriends}
+
+				<p className="title has-text-grey is-spaced">
 					Top players
 				</p>
-				{usersTable}
+				{topUsers}
 			</div>
 		)
 	}
 }
 
-export default TopChart;
+const mapStateToProps = state => ({friends: state.friends});
+
+export default connect(mapStateToProps)(TopChart);

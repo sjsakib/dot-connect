@@ -15,6 +15,10 @@ p.subtitle {
   padding-top: 1rem;
 }
 
+p.title {
+	margin-top: 1rem;
+}
+
 .game-table {
 	border-radius: 6px;
 	box-shadow: 0 2px 3px rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.1);

@@ -10,7 +10,7 @@ function initFb(dispatch) {
 		});
 		window.FB.Event.subscribe('auth.statusChange', authChanged);
 		window.FB.Event.subscribe('authResponseChange', authChanged);
-		window.FB.getLoginStatus(res => getFriendList());
+		window.FB.getLoginStatus(res => getFriendList(dispatch));
 	};
 
 	(function(d, s, id) {
@@ -59,7 +59,7 @@ function initFb(dispatch) {
 		});
 		window.localStorage.setItem('user', JSON.stringify(user));
 		updateUser(user);
-		getFriendList();
+		getFriendList(dispatch);
 	}
 }
 
@@ -91,19 +91,45 @@ function updateUser(user) {
 	});
 }
 
-function getFriendList() {
+function getFriendList(dispatch) {
+	if (typeof window.FB === 'undefined') return;
+
 	window.FB.api('/me', 'GET', { fields: 'friends.limit(1000){id,name}' }, res => {
 		if (res.error) {
-			window.localStorage.setItem('friends', 'null')
+			dispatch({
+				type: 'UPDATE_STATE',
+				data: {
+					friends: 'null',
+				}
+			})
 		} else {
 			const friends = res.friends.data;
 			friends.push(res.id);
-			window.localStorage.setItem('friends', friends.join(','));
+			
+			fetch(apiUrl + '/topchart?friends=' + friends.join(','))
+				.then(res => res.json())
+				.then(data => {
+					dispatch({
+						type: 'UPDATE_STATE',
+						data: {
+							friends: data,
+						}
+					});
+				})
+				.catch(err => {
+					dispatch({
+						type: 'UPDATE_STATE',
+						data: {
+							friends: 'failed',
+						}
+					});
+				});
 		}
 	});
 }
 
-export default {
+export {
 	initFb,
-	loadUser
+	loadUser,
+	getFriendList,
 };

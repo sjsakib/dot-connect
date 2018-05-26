@@ -4,7 +4,7 @@ import answer from './answer';
 
 const initialState = {
 	gameStatus: 'Game not started',
-	status: 'not_started',	
+	status: 'not_started'
 };
 
 export default function(state = initialState, action) {
@@ -34,12 +34,17 @@ export default function(state = initialState, action) {
 				...{
 					user: action.data
 				}
-			}
+			};
 		case 'ANSWER':
 			step = state.step;
 			state = answer(state);
 			if (step !== state.step) action.after(state);
 			return state;
+		case 'DISCONNECTED':
+			return {
+				...state,
+				...{ connected: { x: false, o: false } }
+			};
 		default:
 			return state;
 	}

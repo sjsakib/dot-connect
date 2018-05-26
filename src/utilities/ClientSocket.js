@@ -1,9 +1,6 @@
 import io from 'socket.io-client';
 import { apiUrl } from '../config.js';
-import {
-    updateGameState,
-    updateGameList,
-} from '../actions/actionCreators';
+import { updateGameState, updateGameList } from '../actions/actionCreators';
 
 export default class ClientSocket {
     constructor(app) {
@@ -16,25 +13,31 @@ export default class ClientSocket {
 
         this.socket.on('SYNC', data => {
             console.log(data);
-            dispatch(updateGameState(data))
+            dispatch(updateGameState(data));
         });
 
         this.socket.on('UPDATE_GAME_LIST', data =>
             dispatch(updateGameList(data))
         );
 
+        this.socket.on('disconnect', () => {
+            if (this.app.props.offline) return;
+            dispatch({
+                type: 'DISCONNECTED'
+            });
+        });
+
         this.socket.on('reconnect', () => {
             if (this.app.offline) return;
             console.log(this.app.props.user.id);
             this.socket.emit('REQUEST_GAME_INFO', {
                 gameId: this.app.props.gameId,
-                userId: this.app.props.user.id,
+                userId: this.app.props.user.id
             });
             this.socket.emit('REJOIN', {
                 gameId: this.app.props.gameId,
-                userId: this.app.props.user.id,
+                userId: this.app.props.user.id
             });
-
         });
     }
 

@@ -90,21 +90,32 @@ const getGameById = id => {
 
 const updateGameById = (id, data) => {
     return new Promise(resolve => {
-        Game.findOneAndUpdate({ gameId: id }, data, () => resolve());
-        if (data.status && data.status === 'finished')
-            updatePoints(data.gameId);
+        Game.findOneAndUpdate({ gameId: id }, data, () => {
+            resolve();
+            if (data.status && data.status === 'finished')
+                updatePoints(data.gameId);
+        });
     });
 };
 
 const updatePoints = gameId => {
     Game.findOne({ gameId }, (err, game) => {
         if (!game || game.pointsCounted) return;
+
         const points = game.score.x - game.score.o;
-        User.update({ id: game.users.x }, { $inc: { points: points } }).exec();
+
+        let toUpdate;
+        if (points > 0) {
+            toUpdate = game.users.x;
+        } else {
+            toUpdate = game.users.o;
+        }
+
         User.update(
-            { id: game.users.o },
-            { $inc: { points: -1 * points } }
+            { id: toUpdate },
+            { $inc: { points: Math.abs(points) } }
         ).exec();
+
         Game.update({ gameId }, { pointsCounted: false }).exec();
     });
 };

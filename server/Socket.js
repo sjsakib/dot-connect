@@ -34,7 +34,10 @@ module.exports = server => {
             // console.log(data.userId + ' joined... ' + data.gameId)
 
             Storage.getGameById(data.gameId).then(game => {
-                if ( !game ) return;
+                if ( !game ) {
+                    socket.emit('SYNC', { status: 'not_found' });
+                    return;
+                }
                 if ( game.status === 'waiting_for_opponent' && game.users.x != data.userId) {
 
                     //Update everyone about the new PublicGames List
@@ -60,8 +63,17 @@ module.exports = server => {
                 };
                 Storage.updateGameById(data.gameId, update);
 
-                io.to(game.gameId).emit('SYNC', update);
+                // send to peer about the joining event
+                socket.broadcast.to(game.gameId).emit('SYNC', update);
 
+                // send to clinet game info
+                socket.emit('SYNC', {
+                    ...game,
+                    ...{
+                        isX: game.users.x === data.userId,
+                    }
+                });
+                
                 socket.on('disconnect', () => {
                     Storage.getGameById(data.gameId).then( game => {
                         if ( isX ) {
@@ -87,6 +99,7 @@ module.exports = server => {
                     });
                     return;
                 }
+                // console.log('Sent ', data.gameId, ' to ', data.userId);
                 socket.emit('SYNC', {
                     ...game,
                     ...{

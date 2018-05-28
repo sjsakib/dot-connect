@@ -29,7 +29,7 @@ export default class ClientSocket {
 
         this.socket.on('reconnect', () => {
             if (this.app.offline) return;
-            console.log(this.app.props.user.id);
+            // console.log(this.app.props.user.id);
             this.socket.emit('REQUEST_GAME_INFO', {
                 gameId: this.app.props.gameId,
                 userId: this.app.props.user.id

@@ -11,11 +11,6 @@ class Game extends Component {
 
 		if ( this.props.offline ) return;
 
-		this.props.socket.emit('REQUEST_GAME_INFO', {
-			gameId: props.match.params.gameId,
-			userId: props.user.id,
-		});
-
 		this.props.socket.emit('JOIN_GAME', {
 			gameId: props.match.params.gameId,
 			userId: props.user.id
@@ -40,7 +35,7 @@ class Game extends Component {
 
 		// REQUEST_GAME_INFO might have been replied before the game is saved in db
 		// should try again
-		if (this.props.status === 'not_found' && this.props.connected) {
+		/*if (this.props.status === 'not_found' && this.props.connected) {
 			this.props.socket.emit('REQUEST_GAME_INFO', {
 				gameId: this.props.match.params.gameId,
 				userId: this.props.user.id,
@@ -51,7 +46,7 @@ class Game extends Component {
 					status: 'waiting_for_response',
 				}
 			});
-		}
+		}*/
 	}
 
 	answer() {

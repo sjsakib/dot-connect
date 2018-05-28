@@ -1,6 +1,11 @@
+const { siteUrl } = require('./config');
+
 module.exports = server => {
     const io = require('socket.io')(server);
     const Storage = require('./Storage');
+
+    // do not allow connections from origins other than siteUrl
+    io.set('origins', siteUrl);
 
     // A new User (CLIENT) is Connected
     io.on('connection', socket => {

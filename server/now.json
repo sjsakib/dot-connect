@@ -1,0 +1,7 @@
+{
+	"name": "dot-connect-server",
+	"alias": "dot-connect-server.now.sh",
+	"env": {
+		"LIVE_DB": "@live-db"
+	}
+}

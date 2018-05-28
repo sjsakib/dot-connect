@@ -49,26 +49,14 @@ app.get('/topchart', function(req, res) {
 });
 
 app.get('/game-list/:userId', function(req, res) {
-	Storage.getGameList(req.params.userId).then(allGames => {
-		const current = allGames
-			.filter(game => game.status !== 'finished')
-			.map(game => ({
-				gameId: game.gameId,
-				name: game.name,
-				size: game.size
-			}));
-		const finished = allGames
-			.filter(game => game.status === 'finished')
-			.map(game => ({
-				gameId: game.gameId,
-				name: game.name,
-				size: game.size
-			}));
-		Storage.getUserName(req.params.userId).then(name => {
-			res.json({
-				name,
-				current,
-				finished
+	Storage.getGameList(req.params.userId, false, 10).then(current => {
+		Storage.getGameList(req.params.userId, true, 10).then(finished => {
+			Storage.getUserName(req.params.userId).then(name => {
+				res.json({
+					name,
+					current,
+					finished
+				});
 			});
 		});
 	});

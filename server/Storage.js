@@ -33,13 +33,15 @@ const getUserName = userId => {
     });
 };
 
-const getGameList = userId => {
+const getGameList = (userId, finished, count) => {
     return new Promise(resolve => {
         Game.find(
             {
-                $or: [{ 'users.x': userId }, { 'users.o': userId }]
+                $or: [{ 'users.x': userId }, { 'users.o': userId }],
+                status: { $regex: finished ? 'finished' : /^(?!finished).*$/ }
             },
-            'gameId players size status',
+            '-_id gameId players size',
+            { sort: { _id: -1 }, limit: count },
             (err, games) => {
                 if (err) throw err;
                 resolve(
@@ -57,13 +59,19 @@ const getGameList = userId => {
 
 const getTopChart = users => {
     let query;
-    if (users) query = { id: { $in: users } };
-    else query = {};
+    let count;
+    if (users) {
+        query = { id: { $in: users } };
+        count = 1000;
+    } else {
+        count = 10;
+        query = {};
+    }
     return new Promise(resolve => {
         User.find(
             query,
             '-_id id name points',
-            { sort: { points: -1 } },
+            { sort: { points: -1 }, limit: count },
             (err, users) => {
                 resolve(users);
             }

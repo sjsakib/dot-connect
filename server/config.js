@@ -1,4 +1,7 @@
-const apiUrl = 'https://dot-connect-server.now.sh';
-const siteUrl = 'https://dot-connect.sjsakib.me';
+// const siteUrl = 'http://localhost:3000';
+// const dbHost = 'mongodb://dot-connect:D0t-conn3ct@ds227740.mlab.com:27740/dot-connect';
 
-module.exports = { apiUrl, siteUrl };
+const siteUrl = 'https://dot-connect.sjsakib.me';
+const dbHost = process.env.LIVE_DB;
+
+module.exports = { siteUrl, dbHost };

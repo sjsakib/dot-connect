@@ -48,6 +48,12 @@ app.get('/topchart', function(req, res) {
 	});
 });
 
+app.get('/active-games', function(req, res) {
+	Storage.getActiveGames(10).then(games => {
+		res.json(games);
+	});
+});
+
 app.get('/game-list/:userId', function(req, res) {
 	Storage.getGameList(req.params.userId, false, 10).then(current => {
 		Storage.getGameList(req.params.userId, true, 10).then(finished => {

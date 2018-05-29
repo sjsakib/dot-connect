@@ -57,6 +57,30 @@ const getGameList = (userId, finished, count) => {
     });
 };
 
+const getActiveGames = count => {
+    return new Promise(resolve => {
+        Game.find(
+            {
+                status: 'started',
+                connected: { x: true, o: true }
+            },
+            '-_id gameId players size',
+            { sort: { _id: -1 }, limit: count },
+            (err, games) => {
+                if (err) throw err;
+                resolve(
+                    games.map(game => ({
+                        gameId: game.gameId,
+                        name: game.players.x + ' vs ' + game.players.o,
+                        size: game.size.r + 'x' + game.size.c,
+                        status: game.status
+                    }))
+                );
+            }
+        );
+    });
+};
+
 const getTopChart = users => {
     let query;
     let count;
@@ -136,5 +160,6 @@ module.exports = {
     getGameList,
     updateUser,
     getUserName,
-    getTopChart
+    getTopChart,
+    getActiveGames,
 };

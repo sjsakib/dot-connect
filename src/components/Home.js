@@ -4,6 +4,7 @@ import logo from '../img/logo.png';
 import Menu from './Menu';
 import FBLoginButton from './FBLoginButton';
 import PublicGameList from './PublicGameList';
+import ActiveGames from './ActiveGames';
 
 class Home extends Component {
 
@@ -27,6 +28,7 @@ class Home extends Component {
                     userId={this.props.user.id}
                 />
                 <PublicGameList games={this.props.availableGames} />
+                <ActiveGames />
             </div>
         );
     }

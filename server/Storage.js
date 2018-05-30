@@ -18,11 +18,15 @@ const getPublicGames = () => {
 };
 
 const updateUser = params => {
-    User.update(
-        { id: params.id },
-        { name: params.name },
+    const id = params.oldId !== 'none' ? params.oldId : params.id;
+    User.findOneAndUpdate(
+        { id: id },
+        { name: params.name, id: params.id },
         { upsert: true, setDefaultsOnInsert: true }
-    ).exec();
+    )
+    .exec()
+    .catch(err => null);
+    // ignore in case of duplicate id
 };
 
 const getUserName = userId => {

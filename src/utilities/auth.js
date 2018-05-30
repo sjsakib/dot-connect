@@ -32,20 +32,19 @@ function initFb(dispatch) {
 		let user;
 		if (data.authResponse && data.status === 'connected') {
 			const userId = data.authResponse.userID;
+			const oldUser = JSON.parse(window.localStorage.getItem('user'));
 			window.FB.api('/' + userId, res => {
-				console.log(res);
 				user = {
 					id: userId,
 					name: res.name,
 					loggedIn: true
 				};
-				console.log(user);
 				dispatch({
 					type: 'UPDATE_USER',
 					data: user
 				});
 				window.localStorage.setItem('user', JSON.stringify(user));
-				updateUser(user);
+				updateUser(user, (oldUser && !oldUser.loggedIn) && oldUser.id);
 			});
 			return;
 		}
@@ -55,7 +54,6 @@ function initFb(dispatch) {
 			name: 'Guest' + id,
 			loggedIn: false
 		};
-		console.log(user);
 		dispatch({
 			type: 'UPDATE_USER',
 			data: user
@@ -85,10 +83,11 @@ function loadUser(dispatch) {
 	return user;
 }
 
-function updateUser(user) {
+function updateUser(user, oldId) {
 	let url = apiUrl + '/update-user';
 	url += '/' + user.id;
 	url += '/' + user.name;
+	url += '/' + (oldId || 'none');
 	fetch(url, {
 		method: 'POST'
 	});

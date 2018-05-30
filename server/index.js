@@ -34,7 +34,7 @@ app.get('/', function(req, res) {
 	res.json({ message: 'server running...' });
 });
 
-app.post('/update-user/:id/:name', function(req, res) {
+app.post('/update-user/:id/:name/:oldId', function(req, res) {
 	Storage.updateUser(req.params);
 	res.sendStatus(200);
 });

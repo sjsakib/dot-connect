@@ -1,6 +1,6 @@
 let siteUrl, dbHost;
 
-const dev = false;
+const dev = true;
 
 if ( dev ) {
 	siteUrl = 'http://localhost:3000';

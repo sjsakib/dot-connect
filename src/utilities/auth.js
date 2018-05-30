@@ -105,7 +105,7 @@ function getFriendList(dispatch) {
 				}
 			})
 		} else {
-			const friends = res.friends.data;
+			const friends = res.friends.data.map(fr => fr.id);
 			friends.push(res.id);
 			
 			fetch(apiUrl + '/topchart?friends=' + friends.join(','))

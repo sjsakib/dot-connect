@@ -1,3 +1,6 @@
+body {
+	font-family: 'Open Sans', serif;
+}
 .hero.is-success {
 	background: #F2F6FA;
 	color: #4a4a4a;
@@ -13,6 +16,10 @@
 
 p.subtitle {
   padding-top: 1rem;
+}
+
+p.footer-contact {
+	margin-top: 1rem;
 }
 
 p.title {

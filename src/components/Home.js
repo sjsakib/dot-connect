@@ -29,6 +29,15 @@ class Home extends Component {
                 />
                 <PublicGameList games={this.props.availableGames} />
                 <ActiveGames />
+                <div>
+                    <p className="footer-contact is-size-7 has-text-weight-semibold">
+                        <a target="_blank" href="https://m.me/sjsakib"> Message developer</a>
+                        &nbsp; · &nbsp;
+                        <a target="_blank" href="mailto:sjsakib.bd@gmail.com">Email developer</a>
+                        &nbsp; · &nbsp;
+                        <a target="_blank" href="https://github.com/sjsakib/dot-connect">See source on GitHub</a>
+                    </p>
+                </div>
             </div>
         );
     }

@@ -66,7 +66,8 @@ const getActiveGames = count => {
         Game.find(
             {
                 status: 'started',
-                connected: { x: true, o: true }
+                connected: { x: true, o: true },
+                offline: false,
             },
             '-_id gameId players size',
             { sort: { _id: -1 }, limit: count },

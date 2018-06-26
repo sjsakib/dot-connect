@@ -13,7 +13,7 @@ function initFb(dispatch) {
 
 		window.FB.Event.subscribe('auth.statusChange', authChanged);
 		window.FB.Event.subscribe('authResponseChange', authChanged);
-		window.FB.getLoginStatus(res => getFriendList(dispatch));
+		// window.FB.getLoginStatus(res => getFriendList(dispatch));
 	};
 
 	(function(d, s, id) {
@@ -60,7 +60,7 @@ function initFb(dispatch) {
 		});
 		window.localStorage.setItem('user', JSON.stringify(user));
 		updateUser(user);
-		getFriendList(dispatch);
+		// getFriendList(dispatch);
 	}
 }
 
@@ -93,6 +93,7 @@ function updateUser(user, oldId) {
 	});
 }
 
+/*
 function getFriendList(dispatch) {
 	if (typeof window.FB === 'undefined') return;
 
@@ -129,9 +130,10 @@ function getFriendList(dispatch) {
 		}
 	});
 }
+*/
 
 export {
 	initFb,
 	loadUser,
-	getFriendList,
+	// getFriendList,
 };

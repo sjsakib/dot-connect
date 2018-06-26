@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getFriendList } from '../utilities/auth'
+// import { getFriendList } from '../utilities/auth'
 import { HomeLink } from './utilities'
 import { apiUrl } from '../config';
 
@@ -25,7 +25,7 @@ class TopChart extends Component {
 			});
 		
 		// reload facebook friends
-		getFriendList(this.props.dispatch);
+		// getFriendList(this.props.dispatch);
 	}
 
 	toUserTable(users) {
@@ -57,9 +57,9 @@ class TopChart extends Component {
 
 	render() {
 		const { status, users } = this.state;
-		const friends = this.props.friends;
+		// const friends = this.props.friends;
 
-		let topUsers, topFriends;
+		let topUsers;
 		
 		if ( status === 'loading' ) {
 			topUsers =  <p> Loading... </p>;
@@ -69,6 +69,7 @@ class TopChart extends Component {
 			topUsers = this.toUserTable(users);
 		}
 
+		/*
 		if ( !friends ) {
 			topFriends =  <p> Loading... </p>;
 		} else if ( friends === 'failed' ) {
@@ -78,14 +79,10 @@ class TopChart extends Component {
 		} else {
 			topFriends = this.toUserTable(friends);
 		}
+		*/
 
 		return (
 			<div>
-				<p className="title has-text-grey">
-					Top friends
-				</p>
-				{topFriends}
-
 				<p className="title has-text-grey is-spaced">
 					Top players
 				</p>
@@ -96,6 +93,8 @@ class TopChart extends Component {
 	}
 }
 
-const mapStateToProps = state => ({friends: state.friends});
+// const mapStateToProps = state => ({friends: state.friends});
 
-export default connect(mapStateToProps)(TopChart);
+// export default connect(mapStateToProps)(TopChart);
+
+export default TopChart;

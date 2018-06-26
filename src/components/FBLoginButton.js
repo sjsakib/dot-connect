@@ -18,7 +18,7 @@ class FBLoginButton extends Component {
 				data-show-faces="false"
 				data-auto-logout-link="true"
 				data-use-continue-as="true"
-				data-scope="public_profile, user_friends"
+				data-scope="public_profile"
 			/>
 		);
 	}

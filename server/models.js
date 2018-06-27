@@ -28,7 +28,7 @@ const GameSchema = mongoose.Schema({
 		]
 	],
 	public: Boolean,
-	offline: Boolean,
+	offline: {type: Boolean, default: false},
 	pointsCounted: Boolean,
 });
 

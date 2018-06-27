@@ -26,7 +26,7 @@ yarn install
 yarn start
 ```
 
-You'll need to have an internet connection to use the app. Because it uses a sandbox database instance from [mlab](https://mlab.com/) instead of local installation of Mongo. 
+An internet connection is required for the app to work. Because it uses a sandbox database instance from [mlab](https://mlab.com/) instead of local installation of Mongo. 
 
 
 ## Rules of the game
@@ -34,7 +34,7 @@ The game starts with a grid of dots. Each player in turn connects two dots verti
 
 
 ## Technologies used
-Key technologies used are react, redux, react-router, socket.io client library in the frontend and Node, Express, Mongo, Mongoose, socket.io in the backend.
+Key technologies used are [react](https://github.com/facebook/react), [react-redux](https://github.com/reduxjs/react-redux), [react-router](https://github.com/ReactTraining/react-router), [socket.io-client](https://github.com/socketio/socket.io-client) in the frontend and Node, [Express](https://github.com/expressjs/express), Mongo, [Mongoose](https://github.com/Automattic/mongoose), [socket.io](https://github.com/socketio/socket.io) in the backend.
 
 
 ## Feature
@@ -63,7 +63,7 @@ Waiting for opponent
 
 Join a game
 
-![On going](playing/home.png)
+![On going](screenshots/playing.png)
 
 A game going on
 

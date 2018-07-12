@@ -130,7 +130,7 @@ function nodeClicked(state, clickedNode) {
     }
   };
 
-  if (!gotNodes) return newState;
+  if (!gotNodes || !offline) return newState;
 
   newState = getNeighbour(newState, row, col);
   

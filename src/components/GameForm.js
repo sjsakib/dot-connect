@@ -88,6 +88,7 @@ class GameForm extends Component {
     let xName = this.props.user.name;
     xName = xName.startsWith('Guest') ? 'X' : xName;
     const oName = this.props.offline ? 'Computer': 'O';
+    const maxSize = this.props.offline ? 8 : 1000;
 
     return (
       <div>
@@ -110,13 +111,13 @@ class GameForm extends Component {
             <label className="label"> Size </label>
             <div className="field has-addons has-addons-centered">
               <p className="control">
-              <input className="input" type="number" max="10" min="2" required name="r" defaultValue="7" />
+              <input className="input" type="number" max={maxSize} min="2" required name="r" defaultValue="7" />
               </p>
               <p className="control">
                 <a className="button is-static">X</a>
               </p>
               <p className="control">
-              <input className="input" type="number" max="10" min="2" required name="c" defaultValue="5" />
+              <input className="input" type="number" max={maxSize} min="2" required name="c" defaultValue="5" />
               </p>
             </div>
           </div>

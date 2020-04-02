@@ -2,7 +2,7 @@
 
 A turn based two player game built on MERN stack technologies.
 
-Available to play [here.](https://dot-connect.sjsakib.me)
+Available to play [here.](https://dot-connect.sakib.dev/)
 
 Read the development story [here.](https://medium.com/@sjsakib/how-i-built-my-first-react-app-dot-connect-364f39ca0db7)
 
